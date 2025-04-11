@@ -1,0 +1,11 @@
+# Clonar o repositório em outro local
+gh repo clone {owner}/tv-nupep
+
+# Ver informações do repositório
+gh repo view
+
+# Ver status do repositório
+gh repo status
+
+# Criar pull request
+gh pr create --title "Nova funcionalidade" --body "Descrição da funcionalidade"
