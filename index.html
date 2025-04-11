@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV NUPEP</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">🧠</span> TV NUPEP
+        </div>
+        <div class="hamburger-menu" id="hamburger-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#" class="active">Explorar</a></li>
+            <li><a href="#">Ao Vivo</a></li>
+            <li><a href="#">Cursos</a></li>
+            <li><a href="#">Biblioteca</a></li>
+        </ul>
+    </header>
+    
+    <div class="main-container">
+        <div class="featured-container">
+            <div class="featured-video-container" id="featured-video">
+                <!-- O iframe do vídeo ao vivo será inserido aqui via JavaScript -->
+            </div>
+            <div class="streaming-info live" id="streaming-info">AO VIVO</div>
+            <div class="featured-overlay">
+                <h1 class="featured-title" id="featured-title">Carregando programação...</h1>
+                <p class="featured-description" id="featured-description">Preparando o conteúdo de acordo com o horário atual.</p>
+            </div>
+            <div class="player-controls">
+                <button class="player-btn" id="mute-toggle" title="Ativar/Desativar Som">🔊</button>
+                <button class="player-btn" id="refresh-video" title="Atualizar Vídeo">🔄</button>
+                <button class="player-btn return-btn" id="return-to-live" title="Voltar para Transmissão ao Vivo" style="display: none;">📺</button>
+            </div>
+            <button class="guide-toggle" id="guide-toggle">
+                <span class="guide-toggle-icon">📋</span> Guia
+            </button>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+        
+        <section class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Aulas Recentes</h2>
+                <a href="#" class="see-all">Ver Todas</a>
+            </div>
+            <div class="content-grid" id="popular-grid">
+                <!-- Cards de conteúdo serão inseridos aqui via JavaScript -->
+            </div>
+        </section>
+        
+        <section class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Continuar Assistindo</h2>
+                <a href="#" class="see-all">Ver Todos</a>
+            </div>
+            <div class="content-grid" id="continue-grid">
+                <!-- Cards de conteúdo serão inseridos aqui via JavaScript -->
+            </div>
+        </section>
+        
+        <section class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">Recomendados para Você</h2>
+                <a href="#" class="see-all">Ver Todos</a>
+            </div>
+            <div class="content-grid" id="recommended-grid">
+                <!-- Cards de conteúdo serão inseridos aqui via JavaScript -->
+            </div>
+        </section>
+    </div>
+    
+    <div class="program-guide" id="program-guide">
+        <button class="close-guide" id="close-guide">&times;</button>
+        <h2 class="guide-title">Guia de Programação</h2>
+        <div class="day-selector" id="day-selector">
+            <!-- Botões dos dias da semana serão inseridos aqui via JavaScript -->
+        </div>
+        <div id="program-list">
+            <!-- A programação do dia selecionado será inserida aqui via JavaScript -->
+        </div>
+    </div>
+
+    <script src="js/video-data.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
