@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TV NUPEP</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
     <header class="header">
         <div class="logo">
@@ -24,61 +27,46 @@
             <li><a href="#">Biblioteca</a></li>
         </ul>
     </header>
-    
-    <div class="main-container">
-        <div class="featured-container">
-            <div class="featured-video-container" id="featured-video">
-                <!-- O iframe do vídeo ao vivo será inserido aqui via JavaScript -->
+
+    <!-- Seção de conteúdo que será alterada -->
+    <main>
+        <!-- Seção do player de vídeo -->
+        <div class="video-container">
+            <div class="video-wrapper">
+                <iframe id="video-player" src="about:blank" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+                <h2 id="video-title">Carregando...</h2>
+                <div class="player-controls">
+                    <button id="live-button" class="control-button active">Ao Vivo</button>
+                    <button id="popup-button" class="control-button">Assistir em tela separada</button>
+                </div>
             </div>
-            <div class="streaming-info live" id="streaming-info">AO VIVO</div>
-            <div class="featured-overlay">
-                <h1 class="featured-title" id="featured-title">Carregando programação...</h1>
-                <p class="featured-description" id="featured-description">Preparando o conteúdo de acordo com o horário atual.</p>
-            </div>
-            <div class="player-controls">
-                <button class="player-btn" id="mute-toggle" title="Ativar/Desativar Som">🔊</button>
-                <button class="player-btn" id="refresh-video" title="Atualizar Vídeo">🔄</button>
-                <button class="player-btn return-btn" id="return-to-live" title="Voltar para Transmissão ao Vivo" style="display: none;">📺</button>
-            </div>
-            <button class="guide-toggle" id="guide-toggle">
-                <span class="guide-toggle-icon">📋</span> Guia
-            </button>
-            <div class="progress-bar-container">
-                <div class="progress-bar" id="progress-bar"></div>
+
+            <!-- Seção da programação -->
+            <div class="program-container">
+                <h2>Programação da Semana</h2>
+                <div class="days-of-week">
+                    <button class="day-button" data-day="0">Dom</button>
+                    <button class="day-button" data-day="1">Seg</button>
+                    <button class="day-button" data-day="2">Ter</button>
+                    <button class="day-button" data-day="3">Qua</button>
+                    <button class="day-button" data-day="4">Qui</button>
+                    <button class="day-button" data-day="5">Sex</button>
+                    <button class="day-button" data-day="6">Sáb</button>
+                </div>
+                <div id="program-list" class="program-list">
+                    <!-- Itens da programação serão inseridos aqui -->
+                </div>
             </div>
         </div>
-        
-        <section class="section-container">
-            <div class="section-header">
-                <h2 class="section-title">Aulas Recentes</h2>
-                <a href="#" class="see-all">Ver Todas</a>
-            </div>
-            <div class="content-grid" id="popular-grid">
-                <!-- Cards de conteúdo serão inseridos aqui via JavaScript -->
-            </div>
-        </section>
-        
-        <section class="section-container">
-            <div class="section-header">
-                <h2 class="section-title">Continuar Assistindo</h2>
-                <a href="#" class="see-all">Ver Todos</a>
-            </div>
-            <div class="content-grid" id="continue-grid">
-                <!-- Cards de conteúdo serão inseridos aqui via JavaScript -->
-            </div>
-        </section>
-        
-        <section class="section-container">
-            <div class="section-header">
-                <h2 class="section-title">Recomendados para Você</h2>
-                <a href="#" class="see-all">Ver Todos</a>
-            </div>
-            <div class="content-grid" id="recommended-grid">
-                <!-- Cards de conteúdo serão inseridos aqui via JavaScript -->
-            </div>
-        </section>
-    </div>
-    
+
+        <!-- Seções de conteúdo (categorias) -->
+        <div class="content-sections">
+            <!-- Seções de categoria serão inseridas aqui dinamicamente -->
+        </div>
+    </main>
+
     <div class="program-guide" id="program-guide">
         <button class="close-guide" id="close-guide">&times;</button>
         <h2 class="guide-title">Guia de Programação</h2>
@@ -93,4 +81,5 @@
     <script src="js/video-data.js"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>

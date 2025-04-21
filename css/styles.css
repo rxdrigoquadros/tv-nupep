@@ -612,6 +612,98 @@ body {
     line-height: 1.6;
 }
 
+/* Estilos para as categorias dinâmicas */
+.content-section {
+    margin: 2rem 0;
+  }
+  
+  .content-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+  }
+  
+  .cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .more-button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .more-button:hover {
+    background-color: var(--primary-color);
+  }
+  
+  /* Estilos para o modal de categoria */
+  .category-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0 0.5rem;
+  }
+  
+  .modal-content {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  @media (max-width: 768px) {
+    .modal-content {
+      grid-template-columns: 1fr;
+      padding: 1rem;
+    }
+  }
+
 /* Responsividade */
 @media (max-width: 768px) {
     .header {
