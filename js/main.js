@@ -5,7 +5,7 @@ var youtubeAPIReady = false;
 var isLiveStream = true; // Controlar se é ao vivo ou sob demanda
 var videos = []; // Armazenará os vídeos carregados do CSV
 var schedule; // Armazenará o cronograma
-var playerVolume = 100; // Volume padrão (0-100)
+var playerVolume = 0; // Volume padrão (0-100)
 var playerMuted = false; // Estado mudo
 
 // Função chamada automaticamente quando a API do YouTube estiver carregada
