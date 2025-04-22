@@ -5,8 +5,8 @@ var youtubeAPIReady = false;
 var isLiveStream = true; // Controlar se é ao vivo ou sob demanda
 var videos = []; // Armazenará os vídeos carregados do CSV
 var schedule; // Armazenará o cronograma
-var playerVolume = 0; // Volume padrão (0-100)
-var playerMuted = false; // Estado mudo
+var playerVolume = 100; // Volume padrão (0-100)
+var playerMuted = true; // Iniciar como mudo para corresponder ao estado inicial do player
 
 // Função chamada automaticamente quando a API do YouTube estiver carregada
 function onYouTubeIframeAPIReady() {
@@ -294,6 +294,12 @@ function initializePlayers() {
     
     // Generate program guide
     generateProgramGuide();
+    
+    // Sincronize o UI de controle de volume
+    updateMuteIcon();
+    
+    // Define o valor inicial do slider de volume
+    document.getElementById('volume-slider').value = playerVolume;
     
     // Hide loading spinner
     setTimeout(() => {
@@ -744,6 +750,9 @@ document.addEventListener('DOMContentLoaded', function() {
             playerMuted = true;
         } else if (playerMuted) {
             playerMuted = false;
+            if (livePlayer) {
+                livePlayer.unMute();
+            }
         }
         
         updateMuteIcon();
