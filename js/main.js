@@ -763,6 +763,68 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 100);
         }
     });
+
+    // Menu hambúrguer para dispositivos móveis
+    const hamburgerMenu = document.getElementById('hamburger-menu');
+    const mainNav = document.getElementById('main-nav');
+
+    if (hamburgerMenu) {
+        hamburgerMenu.addEventListener('click', function () {
+            this.classList.toggle('active');
+            mainNav.classList.toggle('active');
+
+            // Adicionar/remover overlay
+            let overlay = document.querySelector('.menu-overlay');
+
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'menu-overlay';
+                document.body.appendChild(overlay);
+
+                // Fechar menu ao clicar no overlay
+                overlay.addEventListener('click', function () {
+                    hamburgerMenu.classList.remove('active');
+                    mainNav.classList.remove('active');
+                    this.classList.remove('active');
+                });
+            }
+
+            overlay.classList.toggle('active');
+        });
+    }
+
+    // Fechar menu ao clicar em um item
+    const navItems = mainNav.querySelectorAll('a');
+    navItems.forEach(item => {
+        item.addEventListener('click', function () {
+            if (window.innerWidth <= 768) {
+                hamburgerMenu.classList.remove('active');
+                mainNav.classList.remove('active');
+                const overlay = document.querySelector('.menu-overlay');
+                if (overlay) overlay.classList.remove('active');
+            }
+        });
+    });
+
+    // Rolagem suave quando clicar em "Ao vivo"
+    document.getElementById('live-tab').addEventListener('click', function (e) {
+        e.preventDefault();
+        setActiveTab(document.getElementById('live-tab'));
+        document.getElementById('live-section').style.display = 'block';
+        document.getElementById('categories-container').style.display = 'block';
+        document.getElementById('toggle-categories').style.display = 'block';
+        document.getElementById('schedule-modal').style.display = 'none';
+        document.getElementById('video-grid').style.display = 'none';
+        document.getElementById('back-button').style.display = 'none';
+
+        // Rola suavemente para o topo
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+
+        initializeLivePlayer(); // Refresh the player
+    });
 });
 
 function setActiveTab(tab) {
