@@ -758,17 +758,17 @@ document.addEventListener('DOMContentLoaded', function() {
         updateMuteIcon();
     });
 
-    document.getElementById('toggle-categories').addEventListener('click', () => {
+    document.getElementById('toggle-categories').addEventListener('click', function() {
         const categoriesContainer = document.getElementById('categories-container');
-        const toggleButton = document.getElementById('toggle-categories');
+        const toggleButton = this; // Use 'this' para referenciar o próprio botão
         
         if (categoriesContainer.style.maxHeight) {
             categoriesContainer.style.maxHeight = null;
             toggleButton.classList.remove('active');
         } else {
-            categoriesContainer.style.maxHeight = '2000px'; // Using a large value to ensure all content is shown
+            categoriesContainer.style.maxHeight = '2000px'; // Valor grande para garantir que todo o conteúdo seja exibido
             toggleButton.classList.add('active');
-            // Scroll to categories
+            // Rolar até as categorias
             setTimeout(() => {
                 categoriesContainer.scrollIntoView({ behavior: 'smooth' });
             }, 100);
