@@ -13,7 +13,7 @@
         }
         
         body {
-            background-color: #f5f5f5;
+            background-color: #000; /* Alterado para preto */
             color: #333;
         }
         
@@ -22,7 +22,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 2rem;
-            background-color: #1a1a1a;
+            background-color: #1a3a5f; /* Azul escuro para o header */
             color: white;
             position: sticky;
             top: 0;
@@ -32,7 +32,7 @@
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
-            color: #e50914;
+            color: #4da6ff; /* Azul claro para o logo */
         }
         
         nav ul {
@@ -52,19 +52,24 @@
         }
         
         nav ul li a:hover, nav ul li a.active {
-            color: #e50914;
+            color: #4da6ff; /* Azul claro para hover */
         }
         
         .player-section {
             background-color: #000;
             position: relative;
+            width: 80%; /* Alterado para 80% */
+            margin: 0 auto; /* Centralizado */
+            height: auto; /* Ajustado para altura automática em vez de fixar */
         }
         
         .player-container {
-            max-width: 1200px;
+            max-width: 100%;
             margin: 0 auto;
             position: relative;
             padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #000;
+            overflow: hidden;
         }
         
         #live-player {
@@ -92,18 +97,38 @@
             margin: 0;
         }
         
+        /* Indicador Ao Vivo / On Demand */
+        .player-status {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #f00; /* Vermelho para ao vivo */
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            z-index: 20;
+        }
+        
+        .player-status.ondemand {
+            background-color: #4da6ff; /* Azul para on demand */
+        }
+        
         .more-content {
             text-align: center;
             padding: 1.5rem;
-            background-color: #e50914;
+            background-color: #2c5282; /* Azul médio para o botão */
             color: white;
             font-size: 1.2rem;
             cursor: pointer;
             transition: background-color 0.3s;
+            position: relative; /* Garante que fique acima do vídeo */
+            z-index: 20; /* Valor maior que os elementos do player */
         }
         
         .more-content:hover {
-            background-color: #c4070f;
+            background-color: #1a365d; /* Azul mais escuro para hover */
         }
         
         .categories-container {
@@ -111,6 +136,8 @@
             overflow: hidden;
             transition: max-height 0.6s ease-out;
             background-color: #f5f5f5;
+            position: relative;
+            z-index: 5;
         }
         
         .categories {
@@ -130,6 +157,7 @@
             text-align: center;
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid #4da6ff; /* Bordas azuis */
         }
         
         .category:hover {
@@ -139,7 +167,7 @@
         
         .category h3 {
             margin-bottom: 0.5rem;
-            color: #1a1a1a;
+            color: #1a3a5f; /* Azul escuro para títulos */
         }
         
         .category p {
@@ -162,6 +190,7 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 3px solid #4da6ff; /* Bordas azuis */
         }
         
         .video-card:hover {
@@ -206,6 +235,7 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            color: #1a3a5f; /* Azul escuro para títulos */
         }
         
         .video-info p {
@@ -217,7 +247,7 @@
             display: none;
             margin: 1rem 2rem;
             padding: 0.5rem 1rem;
-            background-color: #e50914;
+            background-color: #2c5282; /* Azul médio para o botão */
             color: white;
             border: none;
             border-radius: 4px;
@@ -226,19 +256,52 @@
         }
         
         .back-button:hover {
-            background-color: #c4070f;
+            background-color: #1a365d; /* Azul mais escuro para hover */
+        }
+        
+        /* Modal para a programação */
+        .schedule-modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        
+        .schedule-modal-content {
+            position: relative;
+            margin: 5% auto;
+            width: 90%;
+            max-width: 900px;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .close-schedule-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #333;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
         }
         
         .program-guide {
-            display: none;
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            padding: 1rem;
         }
         
         .program-guide h2 {
             margin-bottom: 1.5rem;
             text-align: center;
+            color: #1a3a5f; /* Azul escuro para títulos */
         }
         
         .program-list {
@@ -252,6 +315,7 @@
             padding: 1rem;
             border-bottom: 1px solid #ddd;
             transition: background-color 0.3s;
+            cursor: pointer;
         }
         
         .program-item:last-child {
@@ -259,12 +323,13 @@
         }
         
         .program-item:hover {
-            background-color: #f9f9f9;
+            background-color: #f0f7ff; /* Azul muito claro para hover */
         }
         
         .program-time {
             width: 120px;
             font-weight: bold;
+            color: #2c5282; /* Azul médio para horários */
         }
         
         .program-title {
@@ -278,7 +343,8 @@
         }
         
         .current-program {
-            background-color: #ffeeee;
+            background-color: #e6f0ff; /* Azul claro para programa atual */
+            border-left: 4px solid #4da6ff; /* Marcador azul para programa atual */
         }
         
         @media (max-width: 768px) {
@@ -294,8 +360,12 @@
                 margin-left: 1rem;
             }
             
+            .player-section {
+                width: 100%; /* Ocupar toda a largura em telas menores */
+            }
+            
             .player-container {
-                padding-top: 75%; /* Adjust aspect ratio for mobile */
+                padding-top: 56.25%; /* Manter a proporção 16:9 mesmo em dispositivos móveis */
             }
             
             .category {
@@ -338,7 +408,7 @@
             padding-top: 56.25%; /* 16:9 Aspect Ratio */
         }
         
-        #modal-player {
+        #modal-player-container {
             position: absolute;
             top: 0;
             left: 0;
@@ -359,7 +429,7 @@
         .modal-info {
             padding: 1rem;
             color: white;
-            background-color: #1a1a1a;
+            background-color: #1a3a5f; /* Azul escuro para o modal */
         }
         
         .loading {
@@ -379,7 +449,7 @@
             width: 50px;
             height: 50px;
             border: 5px solid #f3f3f3;
-            border-top: 5px solid #e50914;
+            border-top: 5px solid #4da6ff; /* Azul claro para o spinner */
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -387,6 +457,16 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        
+        /* Maximize player size while maintaining aspect ratio */
+        @media (min-width: 1200px) {
+            .player-container {
+                max-width: 100%;
+                height: 0;
+                padding-top: 56.25%;
+                margin: 0 auto;
+            }
         }
     </style>
 </head>
@@ -401,6 +481,7 @@
             <ul>
                 <li><a href="#" class="active" id="live-tab">Ao vivo</a></li>
                 <li><a href="#" id="explore-tab">Explorar</a></li>
+                <li><a href="#" id="schedule-tab">Programação da TV</a></li>
                 <li><a href="#" id="about-tab">Sobre</a></li>
             </ul>
         </nav>
@@ -408,7 +489,8 @@
     
     <div class="player-section" id="live-section">
         <div class="player-container">
-            <iframe id="live-player" frameborder="0" allowfullscreen></iframe>
+            <div id="live-player"></div>
+            <div class="player-status" id="player-status">AO VIVO</div>
             <div class="now-playing">
                 <h3 id="current-video-title">Carregando...</h3>
             </div>
@@ -427,16 +509,21 @@
     
     <div class="video-grid" id="video-grid"></div>
     
-    <div class="program-guide" id="program-guide">
-        <h2>Programação de Hoje</h2>
-        <div class="program-list" id="program-list"></div>
+    <div class="schedule-modal" id="schedule-modal">
+        <div class="schedule-modal-content">
+            <span class="close-schedule-modal" id="close-schedule-modal">&times;</span>
+            <div class="program-guide">
+                <h2>Programação de Hoje</h2>
+                <div class="program-list" id="program-list"></div>
+            </div>
+        </div>
     </div>
     
     <div class="modal" id="video-modal">
         <div class="modal-content">
             <span class="close-modal" id="close-modal">&times;</span>
             <div class="modal-player-container">
-                <iframe id="modal-player" frameborder="0" allowfullscreen></iframe>
+                <div id="modal-player-container"></div>
             </div>
             <div class="modal-info">
                 <h3 id="modal-title"></h3>
@@ -446,6 +533,24 @@
     </div>
 
     <script>
+        // Carregue a API do YouTube Player
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // Variáveis para os players do YouTube
+        var livePlayer;
+        var modalPlayer;
+        var youtubeAPIReady = false;
+        var isLiveStream = true; // Controlar se é ao vivo ou sob demanda
+
+        // Função chamada automaticamente quando a API do YouTube estiver carregada
+        function onYouTubeIframeAPIReady() {
+            youtubeAPIReady = true;
+            initializePlayers();
+        }
+
         // Parse CSV data
         const csvRaw = `Aula do prof Jorge;"""Aula inédita 16/03/2024 - A Revolução do Filho da Luta 2 - Prof. Jorge Melchiades""";https://www.youtube.com/watch?v=DQWHvllQfow;208
 Aula do prof Jorge;Nossa Posição na Existência - Grupo Comenta Reflexões do Professor Jorge Melchiades;https://www.youtube.com/watch?v=WOwGehTnsIY;213
@@ -691,7 +796,7 @@ Outros;"Freud e Id; Ego e Superego - Palestra do Prof. Jorge Melchíades Carvalh
                         categoria,
                         titulo,
                         youtubeLink,
-                        embedLink: videoId ? `https://www.youtube.com/embed/${videoId}` : '',
+                        videoId,
                         duracaoSegundos,
                         duracao: formatDuration(duracaoSegundos)
                     };
@@ -860,43 +965,91 @@ Outros;"Freud e Id; Ego e Superego - Palestra do Prof. Jorge Melchíades Carvalh
         const schedule = createSchedule(videos);
         
         // DOM elements
-        const livePlayer = document.getElementById('live-player');
         const currentVideoTitle = document.getElementById('current-video-title');
+        const playerStatus = document.getElementById('player-status');
         const categoriesList = document.getElementById('categories-list');
         const toggleCategories = document.getElementById('toggle-categories');
         const categoriesContainer = document.getElementById('categories-container');
         const videoGrid = document.getElementById('video-grid');
         const backButton = document.getElementById('back-button');
         const videoModal = document.getElementById('video-modal');
-        const modalPlayer = document.getElementById('modal-player');
         const modalTitle = document.getElementById('modal-title');
         const modalCategory = document.getElementById('modal-category');
         const closeModal = document.getElementById('close-modal');
+        const scheduleModal = document.getElementById('schedule-modal');
+        const closeScheduleModal = document.getElementById('close-schedule-modal');
         const programList = document.getElementById('program-list');
-        const programGuide = document.getElementById('program-guide');
         const liveSection = document.getElementById('live-section');
         const liveTab = document.getElementById('live-tab');
         const exploreTab = document.getElementById('explore-tab');
+        const scheduleTab = document.getElementById('schedule-tab');
         const aboutTab = document.getElementById('about-tab');
         const loading = document.getElementById('loading');
         
         // Get unique categories
         const categories = [...new Set(videos.map(video => video.categoria))];
         
+        // Initialize players once YouTube API is ready
+        function initializePlayers() {
+            // Initialize the live player
+            initializeLivePlayer();
+            
+            // Generate program guide
+            generateProgramGuide();
+            
+            // Hide loading spinner
+            setTimeout(() => {
+                loading.style.display = 'none';
+            }, 1000);
+        }
+        
         // Start with the live player
         function initializeLivePlayer() {
             const currentVideo = getCurrentVideo(schedule);
             
-            if (currentVideo) {
+            if (currentVideo && currentVideo.videoId) {
                 // Calculate how many seconds into the video we should start
                 const now = new Date();
                 const videoStartTime = new Date(now);
                 videoStartTime.setMinutes(currentVideo.startMinute, 0, 0);
                 const secondsElapsed = Math.floor((now - videoStartTime) / 1000);
                 
-                // Set the embed URL with autoplay and start time
-                livePlayer.src = `${currentVideo.embedLink}?autoplay=1&start=${secondsElapsed}`;
+                // Update video title
                 currentVideoTitle.textContent = currentVideo.titulo;
+                
+                // Set player status to AO VIVO
+                playerStatus.textContent = "AO VIVO";
+                playerStatus.classList.remove("ondemand");
+                isLiveStream = true;
+                
+                // If YouTube API is ready, create the player
+                if (youtubeAPIReady) {
+                    if (livePlayer) {
+                        // If player exists, load new video
+                        livePlayer.loadVideoById({
+                            videoId: currentVideo.videoId,
+                            startSeconds: secondsElapsed
+                        });
+                    } else {
+                        // Create new player
+                        livePlayer = new YT.Player('live-player', {
+                            height: '100%',
+                            width: '100%',
+                            videoId: currentVideo.videoId,
+                            playerVars: {
+                                autoplay: 1,
+                                controls: 1,
+                                modestbranding: 1,
+                                rel: 0,
+                                start: secondsElapsed
+                            },
+                            events: {
+                                'onReady': onPlayerReady,
+                                'onStateChange': onPlayerStateChange
+                            }
+                        });
+                    }
+                }
                 
                 // Schedule update for the next video
                 const nextVideoInfo = getNextVideoTime(schedule, currentVideo);
@@ -908,6 +1061,60 @@ Outros;"Freud e Id; Ego e Superego - Palestra do Prof. Jorge Melchíades Carvalh
                         }, timeUntilNext);
                     }
                 }
+            }
+        }
+        
+        // Play a specific video in the main player
+        function playVideo(video) {
+            if (video && video.videoId) {
+                // Update video title
+                currentVideoTitle.textContent = video.titulo;
+                
+                // Change player status to ON DEMAND
+                playerStatus.textContent = "ON DEMAND";
+                playerStatus.classList.add("ondemand");
+                isLiveStream = false;
+                
+                // If YouTube API is ready, create or update the player
+                if (youtubeAPIReady) {
+                    if (livePlayer) {
+                        // If player exists, load new video
+                        livePlayer.loadVideoById({
+                            videoId: video.videoId,
+                            startSeconds: 0
+                        });
+                    } else {
+                        // Create new player
+                        livePlayer = new YT.Player('live-player', {
+                            height: '100%',
+                            width: '100%',
+                            videoId: video.videoId,
+                            playerVars: {
+                                autoplay: 1,
+                                controls: 1,
+                                modestbranding: 1,
+                                rel: 0
+                            }
+                        });
+                    }
+                }
+                
+                // Scroll to the top to see the video
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+        
+        // YouTube player ready event
+        function onPlayerReady(event) {
+            // Play video
+            event.target.playVideo();
+        }
+        
+        // YouTube player state change event
+        function onPlayerStateChange(event) {
+            // If video ends, load next video (only if in live mode)
+            if (event.data === YT.PlayerState.ENDED && isLiveStream) {
+                initializeLivePlayer();
             }
         }
         
@@ -959,7 +1166,8 @@ Outros;"Freud e Id; Ego e Superego - Palestra do Prof. Jorge Melchíades Carvalh
                     
                     // Add click event to play this video
                     programItem.addEventListener('click', () => {
-                        openVideoModal(video);
+                        playVideo(video);
+                        scheduleModal.style.display = 'none';
                     });
                     
                     programList.appendChild(programItem);
@@ -1007,8 +1215,8 @@ Outros;"Freud e Id; Ego e Superego - Palestra do Prof. Jorge Melchíades Carvalh
                 videoCard.className = 'video-card';
                 
                 // Get thumbnail URL from video ID
-                const thumbnailUrl = video.embedLink ? 
-                    `https://img.youtube.com/vi/${extractVideoId(video.youtubeLink)}/mqdefault.jpg` :
+                const thumbnailUrl = video.videoId ? 
+                    `https://img.youtube.com/vi/${video.videoId}/mqdefault.jpg` :
                     '';
                 
                 videoCard.innerHTML = `
@@ -1022,9 +1230,9 @@ Outros;"Freud e Id; Ego e Superego - Palestra do Prof. Jorge Melchíades Carvalh
                     </div>
                 `;
                 
-                // Add click event to play video
+                // Add click event to play video in main player instead of modal
                 videoCard.querySelector('.video-thumbnail').addEventListener('click', () => {
-                    openVideoModal(video);
+                    playVideo(video);
                 });
                 
                 videoGrid.appendChild(videoCard);
@@ -1034,26 +1242,16 @@ Outros;"Freud e Id; Ego e Superego - Palestra do Prof. Jorge Melchíades Carvalh
             videoGrid.style.display = 'flex';
         }
         
-        // Open video in modal
-        function openVideoModal(video) {
-            modalPlayer.src = `${video.embedLink}?autoplay=1`;
-            modalTitle.textContent = video.titulo;
-            modalCategory.textContent = video.categoria;
-            videoModal.style.display = 'block';
-        }
-        
-        // Close video modal
-        function closeVideoModal() {
-            modalPlayer.src = '';
-            videoModal.style.display = 'none';
-        }
-        
         // Event listeners
         toggleCategories.addEventListener('click', () => {
             if (categoriesContainer.style.maxHeight) {
                 categoriesContainer.style.maxHeight = null;
             } else {
                 categoriesContainer.style.maxHeight = '2000px'; // Using a large value to ensure all content is shown
+                // Scroll to categories
+                setTimeout(() => {
+                    categoriesContainer.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
             }
         });
         
@@ -1063,12 +1261,30 @@ Outros;"Freud e Id; Ego e Superego - Palestra do Prof. Jorge Melchíades Carvalh
             categoriesContainer.style.maxHeight = '2000px';
         });
         
-        closeModal.addEventListener('click', closeVideoModal);
+        closeModal.addEventListener('click', () => {
+            if (modalPlayer && modalPlayer.stopVideo) {
+                modalPlayer.stopVideo();
+            }
+            videoModal.style.display = 'none';
+        });
         
-        // Close modal when clicking outside of content
+        closeScheduleModal.addEventListener('click', () => {
+            scheduleModal.style.display = 'none';
+        });
+        
+        // Close modals when clicking outside of content
         videoModal.addEventListener('click', (e) => {
             if (e.target === videoModal) {
-                closeVideoModal();
+                if (modalPlayer && modalPlayer.stopVideo) {
+                    modalPlayer.stopVideo();
+                }
+                videoModal.style.display = 'none';
+            }
+        });
+        
+        scheduleModal.addEventListener('click', (e) => {
+            if (e.target === scheduleModal) {
+                scheduleModal.style.display = 'none';
             }
         });
         
@@ -1079,7 +1295,7 @@ Outros;"Freud e Id; Ego e Superego - Palestra do Prof. Jorge Melchíades Carvalh
             liveSection.style.display = 'block';
             categoriesContainer.style.display = 'block';
             toggleCategories.style.display = 'block';
-            programGuide.style.display = 'none';
+            scheduleModal.style.display = 'none';
             videoGrid.style.display = 'none';
             backButton.style.display = 'none';
             initializeLivePlayer(); // Refresh the player
@@ -1088,22 +1304,42 @@ Outros;"Freud e Id; Ego e Superego - Palestra do Prof. Jorge Melchíades Carvalh
         exploreTab.addEventListener('click', (e) => {
             e.preventDefault();
             setActiveTab(exploreTab);
-            liveSection.style.display = 'none';
-            toggleCategories.style.display = 'none';
-            programGuide.style.display = 'block';
-            categoriesContainer.style.display = 'none';
-            videoGrid.style.display = 'none';
-            backButton.style.display = 'none';
+            
+            // Show categories and scroll to them
+            categoriesContainer.style.maxHeight = '2000px';
+            categoriesContainer.style.display = 'block';
+            toggleCategories.style.display = 'block';
+            
+            // Make sure the player is still visible
+            liveSection.style.display = 'block';
+            
+            // Hide other content
+            scheduleModal.style.display = 'none';
+            
+            // Scroll to categories
+            setTimeout(() => {
+                categoriesContainer.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        });
+        
+        scheduleTab.addEventListener('click', (e) => {
+            e.preventDefault();
+            setActiveTab(scheduleTab);
+            
+            // Update program guide
             generateProgramGuide();
+            
+            // Show schedule modal
+            scheduleModal.style.display = 'block';
         });
         
         aboutTab.addEventListener('click', (e) => {
             e.preventDefault();
             setActiveTab(aboutTab);
-            liveSection.style.display = 'none';
+            liveSection.style.display = 'block';
             categoriesContainer.style.display = 'none';
             toggleCategories.style.display = 'none';
-            programGuide.style.display = 'none';
+            scheduleModal.style.display = 'none';
             videoGrid.style.display = 'none';
             backButton.style.display = 'none';
             
@@ -1114,6 +1350,7 @@ Outros;"Freud e Id; Ego e Superego - Palestra do Prof. Jorge Melchíades Carvalh
         function setActiveTab(tab) {
             liveTab.classList.remove('active');
             exploreTab.classList.remove('active');
+            scheduleTab.classList.remove('active');
             aboutTab.classList.remove('active');
             tab.classList.add('active');
         }
@@ -1125,16 +1362,11 @@ Outros;"Freud e Id; Ego e Superego - Palestra do Prof. Jorge Melchíades Carvalh
             // Populate categories
             populateCategories();
             
-            // Start live player
-            initializeLivePlayer();
-            
-            // Generate program guide
-            generateProgramGuide();
-            
-            // Hide loading spinner
-            setTimeout(() => {
-                loading.style.display = 'none';
-            }, 1500);
+            // If YouTube API is already loaded, initialize players
+            if (youtubeAPIReady) {
+                initializePlayers();
+            }
+            // Otherwise, the onYouTubeIframeAPIReady function will call initializePlayers
         }
         
         // Start the application
