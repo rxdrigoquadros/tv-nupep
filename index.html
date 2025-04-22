@@ -1,99 +1,83 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TV NUPEP - Transmissão ao Vivo</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV NUPEP</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <div class="logo-container">
-      <img src="img/logo.png" alt="Logo NUPEP" class="logo">
-      <h1>TV NUPEP</h1>
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
     </div>
-    <nav>
-      <ul class="nav-menu">
-        <li><a href="index.html" class="active">TV ao Vivo</a></li>
-        <li><a href="sobre.html">Sobre o NUPEP</a></li>
-        <li><a href="https://nupep.org.br" target="_blank">Site Institucional</a></li>
-      </ul>
-      <div class="hamburger">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </div>
-    </nav>
-  </header>
-
-  <main>
-    <!-- Seção do player de vídeo -->
-    <div class="video-container">
-      <div class="video-wrapper">
-        <iframe id="video-player" src="about:blank" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        <h2 id="video-title">Carregando...</h2>
-        <div class="player-controls">
-          <button id="live-button" class="control-button active">Ao Vivo</button>
-          <button id="popup-button" class="control-button">Assistir em tela separada</button>
+    
+    <header>
+        <div class="logo">TV NUPEP</div>
+        <nav>
+            <ul>
+                <li><a href="#" class="active" id="live-tab">Ao vivo</a></li>
+                <li><a href="#" id="explore-tab">Explorar</a></li>
+                <li><a href="#" id="schedule-tab">Programação da TV</a></li>
+                <li><a href="#" id="about-tab">Sobre</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="player-section" id="live-section">
+        <div class="player-container">
+            <div id="live-player"></div>
+            <div class="player-status" id="player-status">AO VIVO</div>
+            <div class="now-playing">
+                <h3 id="current-video-title">Carregando...</h3>
+            </div>
+            <div class="player-controls">
+                <button id="toggle-mute" class="control-button">
+                    <span class="mute-icon">🔊</span>
+                </button>
+                <div class="volume-slider-container">
+                    <input type="range" id="volume-slider" min="0" max="100" value="100" class="volume-slider">
+                </div>
+            </div>
         </div>
-      </div>
-      
-      <!-- Seção da programação -->
-      <div class="program-container">
-        <h2>Programação da Semana</h2>
-        <div class="days-of-week">
-          <button class="day-button" data-day="0">Dom</button>
-          <button class="day-button" data-day="1">Seg</button>
-          <button class="day-button" data-day="2">Ter</button>
-          <button class="day-button" data-day="3">Qua</button>
-          <button class="day-button" data-day="4">Qui</button>
-          <button class="day-button" data-day="5">Sex</button>
-          <button class="day-button" data-day="6">Sáb</button>
+    </div>
+    
+    <div class="more-content" id="toggle-categories">
+        Assista outros programas clicando aqui
+    </div>
+    
+    <div class="categories-container" id="categories-container">
+        <div class="categories" id="categories-list"></div>
+    </div>
+    
+    <button class="back-button" id="back-button">Voltar para categorias</button>
+    
+    <div class="video-grid" id="video-grid"></div>
+    
+    <div class="schedule-modal" id="schedule-modal">
+        <div class="schedule-modal-content">
+            <span class="close-schedule-modal" id="close-schedule-modal">&times;</span>
+            <div class="program-guide">
+                <h2>Programação de Hoje</h2>
+                <div class="program-list" id="program-list"></div>
+            </div>
         </div>
-        <div id="program-list" class="program-list">
-          <!-- Itens da programação serão inseridos aqui -->
+    </div>
+    
+    <div class="modal" id="video-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <div class="modal-player-container">
+                <div id="modal-player-container"></div>
+            </div>
+            <div class="modal-info">
+                <h3 id="modal-title"></h3>
+                <p id="modal-category"></p>
+            </div>
         </div>
-      </div>
     </div>
 
-    <!-- Seções de conteúdo dinâmicas -->
-    <div class="content-sections">
-      <!-- Seções de conteúdo serão inseridas aqui dinamicamente -->
-    </div>
-  </main>
-
-  <footer>
-    <div class="footer-content">
-      <div class="footer-logo">
-        <img src="img/logo.png" alt="Logo NUPEP" class="footer-logo-img">
-        <p>NUPEP - Núcleo de Pesquisa em Psicologia</p>
-      </div>
-      <div class="footer-links">
-        <h3>Links Úteis</h3>
-        <ul>
-          <li><a href="https://nupep.org.br" target="_blank">Site Oficial</a></li>
-          <li><a href="https://youtube.com/@NUPEPJ" target="_blank">Canal no YouTube</a></li>
-          <li><a href="sobre.html">Sobre Nós</a></li>
-        </ul>
-      </div>
-      <div class="footer-contact">
-        <h3>Contato</h3>
-        <p>Email: contato@nupep.org</p>
-        <p>Telefone: (11) 1234-5678</p>
-        <div class="social-icons">
-          <a href="https://facebook.com/nupep" target="_blank"><i class="fab fa-facebook"></i></a>
-          <a href="https://instagram.com/nupep" target="_blank"><i class="fab fa-instagram"></i></a>
-          <a href="https://youtube.com/@NUPEPJ" target="_blank"><i class="fab fa-youtube"></i></a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2024 NUPEP - Todos os direitos reservados</p>
-    </div>
-  </footer>
-
-  <script src="js/video-data.js"></script>
-  <script src="js/main.js"></script>
+    <!-- Scripts -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
