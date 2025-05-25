@@ -1027,6 +1027,7 @@ function controlProgramming() {
     if (currentProgram) {
         const { program, elapsedTime } = currentProgram;
         startProgram(program, elapsedTime);
+        document.getElementById('current-video-title').textContent = program.nome;
     }
 }
 
