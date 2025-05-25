@@ -980,7 +980,7 @@ function timeToSeconds(time) {
 
 function getSortedProgramsOfTheDay(currentDay) {
     return programas
-        .filter((programa) => programa.diaDaSemana == currentDay)
+        //.filter((programa) => programa.diaDaSemana == currentDay)  // descomentar para ter grade específica para cada dia da semana
         .sort((a, b) => a.inicio < b.inicio)
 }
 
@@ -989,12 +989,12 @@ function getProgramAtCurrentTime() {
 
     const now = new Date();
     let currentDay = now.getDay();
-    if (currentDay == 0) currentDay = 7;  // domingo é 0 em JS e 7 em PHP
+    // if (currentDay == 0) currentDay = 7;  // domingo é 0 em JS e 7 em PHP  // descomentar caso utilize backend em PHP
     const programsOfTheDay = getSortedProgramsOfTheDay(currentDay);
 
     const currentTimeInSeconds = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
     const currentProgram = programsOfTheDay.filter((program) =>
-        program.diaDaSemana == currentDay &&
+        // program.diaDaSemana == currentDay &&  // descomentar para ter grade específica para cada dia da semana
         currentTimeInSeconds >= timeToSeconds(program.inicio) &&
         currentTimeInSeconds <= timeToSeconds(program.fim))[0];
 
