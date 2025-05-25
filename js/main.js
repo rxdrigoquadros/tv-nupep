@@ -10,16 +10,16 @@ var playerMuted = true; // Iniciar como mudo para corresponder ao estado inicial
 var apiReadyAttempts = 0; // Contador para tentativas de inicialização
 
 // Dados dos vídeos embutidos no código
-var csvRaw = `Aula do prof Jorge;"Aula inédita 16/03/2024 - A Revolução do Filho da Luta 2 - Prof. Jorge Melchiades";https://www.youtube.com/watch?v=DQWHvllQfow;208
-Aula do prof Jorge;"Nossa Posição na Existência - Grupo Comenta Reflexões do Professor Jorge Melchiades";https://www.youtube.com/watch?v=WOwGehTnsIY;213
-Aula do prof Jorge;"A REVOLUÇÃO DO FILHO DA LUTA 2 - Psicologia Racional - Prof. Jorge Melchiades";https://www.youtube.com/watch?v=M6QvjLNDLD0;266
-Aula do prof Jorge;"Da Mitologia à Esquerda - Grupo Comenta o programa da Série Nossa Posição do Prof. Jorge Melchiades";https://www.youtube.com/watch?v=XaOjIKbuaIg;273
-Aula do prof Jorge;"O Desejo do Filho da Luta - Série: Os Filhos da Luta com o Prof. Jorge Melchiades";https://www.youtube.com/watch?v=gVu_bnU1ZOM;283
-Aula do prof Jorge;"A REVOLUÇÃO DO FILHO DA LUTA - Psicologia Racional - Prof. Jorge Melchiades";https://www.youtube.com/watch?v=cAL6tDgATDs;295
-Aula do prof Jorge;"O Revolucionário Conservador - Grupo Comenta o programa do Prof. Jorge Melchiades";https://www.youtube.com/watch?v=mXpsrUXPwTM;304
-Aula do prof Jorge;"A Revolução do Filho da LUTA - Aula inédita! #dialética #metafisica #etica #jorgemelchiades";https://www.youtube.com/shorts/Wi1qv-KB6PI;309
-Aula do prof Jorge;"Freud e a Nossa Posição - Grupo Comenta a aula do Professor Jorge Melchiades";https://www.youtube.com/watch?v=YEWMVHTS6K0;333
-Aula do prof Jorge;"Quem sou? - Aula de Psicologia Racional - Prof. Jorge Melchiades";https://www.youtube.com/watch?v=J8ZdLy-GIa4;336`;
+var csvRaw = `Aula do prof Jorge;"Aula inédita 16/03/2024 - A Revolução do Filho da Luta 2 - Prof. Jorge Melchiades";https://www.youtube.com/watch?v=DQWHvllQfow;89
+Aula do prof Jorge;"Nossa Posição na Existência - Grupo Comenta Reflexões do Professor Jorge Melchiades";https://www.youtube.com/watch?v=WOwGehTnsIY;3016
+Aula do prof Jorge;"A REVOLUÇÃO DO FILHO DA LUTA 2 - Psicologia Racional - Prof. Jorge Melchiades";https://www.youtube.com/watch?v=M6QvjLNDLD0;1595
+Aula do prof Jorge;"Da Mitologia à Esquerda - Grupo Comenta o programa da Série Nossa Posição do Prof. Jorge Melchiades";https://www.youtube.com/watch?v=XaOjIKbuaIg;2299
+Aula do prof Jorge;"O Desejo do Filho da Luta - Série: Os Filhos da Luta com o Prof. Jorge Melchiades";https://www.youtube.com/watch?v=gVu_bnU1ZOM;1776
+Aula do prof Jorge;"A REVOLUÇÃO DO FILHO DA LUTA - Psicologia Racional - Prof. Jorge Melchiades";https://www.youtube.com/watch?v=cAL6tDgATDs;2013
+Aula do prof Jorge;"O Revolucionário Conservador - Grupo Comenta o programa do Prof. Jorge Melchiades";https://www.youtube.com/watch?v=mXpsrUXPwTM;2345
+Aula do prof Jorge;"A Revolução do Filho da LUTA - Aula inédita! #dialética #metafisica #etica #jorgemelchiades";https://www.youtube.com/shorts/Wi1qv-KB6PI;17
+Aula do prof Jorge;"Freud e a Nossa Posição - Grupo Comenta a aula do Professor Jorge Melchiades";https://www.youtube.com/watch?v=YEWMVHTS6K0;2285
+Aula do prof Jorge;"Quem sou? - Aula de Psicologia Racional - Prof. Jorge Melchiades";https://www.youtube.com/watch?v=J8ZdLy-GIa4;1982`;
 // Resto do CSV foi truncado para brevidade
 
 // Função para mostrar erros na página
