@@ -258,6 +258,9 @@ function getNextVideoTime(schedule, currentVideo) {
 // YouTube player ready event
 function onPlayerReady(event) {
     console.log("Player pronto!");
+    isPlayerReady = true;
+    controlProgramming();
+
     // Play video
     event.target.playVideo();
     
@@ -273,6 +276,7 @@ function onPlayerReady(event) {
     updateMuteIcon();
 }
 
+/*
 // YouTube player state change event
 function onPlayerStateChange(event) {
     console.log("Estado do player mudou:", event.data);
@@ -282,6 +286,7 @@ function onPlayerStateChange(event) {
         initializeLivePlayer();
     }
 }
+*/
 
 // Função para lidar com erros do player
 function onPlayerError(event) {
@@ -832,7 +837,7 @@ function setActiveTab(tab) {
     document.getElementById('about-tab').classList.remove('active');
     tab.classList.add('active');
 }
-
+/*
 // Função chamada automaticamente quando a API do YouTube estiver carregada
 function onYouTubeIframeAPIReady() {
     console.log("YouTube API carregada com sucesso!");
@@ -858,4 +863,194 @@ function onYouTubeIframeAPIReady() {
         document.getElementById('loading').style.display = 'none';
         mostrarErro("Não foi possível carregar os vídeos. Por favor, atualize a página.");
     }
+}
+*/
+
+/*--- Player MasterPiece ---*/
+
+// TODO: atualizar array com grade para a semana inteira
+// TODO: extrair para um arquivo separado
+const programas = [
+    {
+        "nome": "Aula do prof Jorge - Aula inédita 16/03/2024 - A Revolução do Filho da Luta 2 - Prof. Jorge Melchiades",
+        "youtubeId": "DQWHvllQfow",
+        "duracao": "89",
+        "inicio": "16:05:00",
+        "fim": "16:06:29",
+        "diaDaSemana": "0",
+    }, {
+        "nome": "Grupo Comenta - Nossa Posição na Existência - Grupo Comenta Reflexões do Professor Jorge Melchiades",
+        "youtubeId": "WOwGehTnsIY",
+        "duracao": "3016",
+        "inicio": "16:06:30",
+        "fim": "16:56:46",
+        "diaDaSemana": "0",
+    }, {
+        "nome": "Aula do prof Jorge - A REVOLUÇÃO DO FILHO DA LUTA 2 - Psicologia Racional - Prof. Jorge Melchiades",
+        "youtubeId": "M6QvjLNDLD0",
+        "duracao": "1595",
+        "inicio": "16:05:00",
+        "fim": "17:23:22",
+        "diaDaSemana": "0",
+    }, {
+        "nome": "Grupo Comenta - Da Mitologia à Esquerda - Grupo Comenta o programa da Série Nossa Posição do Prof. Jorge Melchiades",
+        "youtubeId": "XaOjIKbuaIg",
+        "duracao": "2299",
+        "inicio": "17:23:23",
+        "fim": "18:01:42",
+        "diaDaSemana": "0",
+    }, {
+        "nome": "Aula do prof Jorge - O Desejo do Filho da Luta - Série: Os Filhos da Luta com o Prof. Jorge Melchiades",
+        "youtubeId": "gVu_bnU1ZOM",
+        "duracao": "1776",
+        "inicio": "18:01:43",
+        "fim": "18:31:09",
+        "diaDaSemana": "0",
+    }, {
+        "nome": "Aula do prof Jorge - A REVOLUÇÃO DO FILHO DA LUTA - Psicologia Racional - Prof. Jorge Melchiades",
+        "youtubeId": "cAL6tDgATDs",
+        "duracao": "2013",
+        "inicio": "18:31:10",
+        "fim": "19:04:43",
+        "diaDaSemana": "0",
+    }, {
+        "nome": "Grupo Comenta - O Revolucionário Conservador - Grupo Comenta o programa do Prof. Jorge Melchiades",
+        "youtubeId": "mXpsrUXPwTM",
+        "duracao": "2345",
+        "inicio": "19:04:44",
+        "fim": "19:43:49",
+        "diaDaSemana": "0",
+    }, {
+        "nome": "Aula do prof Jorge - A Revolução do Filho da LUTA - Aula inédita! #dialética #metafisica #etica #jorgemelchiades",
+        "youtubeId": "Wi1qv-KB6PI",
+        "duracao": "17",
+        "inicio": "19:43:50",
+        "fim": "19:44:07",
+        "diaDaSemana": "0",
+    }, {
+        "nome": "Grupo Comenta - Freud e a Nossa Posição - Grupo Comenta a aula do Professor Jorge Melchiades",
+        "youtubeId": "YEWMVHTS6K0",
+        "duracao": "2285",
+        "inicio": "19:44:08",
+        "fim": "20:22:13",
+        "diaDaSemana": "0",
+    }, {
+        "nome": "Aula do prof Jorge - Quem sou? - Aula de Psicologia Racional - Prof. Jorge Melchiades",
+        "youtubeId": "J8ZdLy-GIa4",
+        "duracao": "1982",
+        "inicio": "20:22:14",
+        "fim": "20:55:16",
+        "diaDaSemana": "0",
+    },
+]
+
+let isPlayerReady = false;
+
+function onPlayerStateChange(event) {
+    console.log("Estado do player mudou:", event.data);
+    if (event.data == YT.PlayerState.ENDED) controlProgramming();
+}
+
+function onYouTubeIframeAPIReady() {
+    livePlayer = new YT.Player('live-player', {
+        height: '100%',
+        width: '100%',
+        videoId: '',
+        playerVars: {
+            autoplay: 1,
+            controls: 0,
+            modestbranding: 1,
+            rel: 0,
+            showinfo: 0,
+            mode: 'no-cors',
+            mute: playerMuted ? 1 : 0
+        },
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange,
+            'onError': onPlayerError
+        }
+    });
+}
+
+function timeToSeconds(time) {
+    const [hours, minutes, seconds] = time.split(":").map(Number);
+    return hours * 3600 + minutes * 60 + (seconds || 0);
+}
+
+function getSortedProgramsOfTheDay(currentDay) {
+    return programas
+        .filter((programa) => programa.diaDaSemana == currentDay)
+        .sort((a, b) => a.inicio < b.inicio)
+}
+
+function getProgramAtCurrentTime() {
+    let program;
+
+    const now = new Date();
+    let currentDay = now.getDay();
+    if (currentDay == 0) currentDay = 7;  // domingo é 0 em JS e 7 em PHP
+    const programsOfTheDay = getSortedProgramsOfTheDay(currentDay);
+
+    const currentTimeInSeconds = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+    const currentProgram = programsOfTheDay.filter((program) =>
+        program.diaDaSemana == currentDay &&
+        currentTimeInSeconds >= timeToSeconds(program.inicio) &&
+        currentTimeInSeconds <= timeToSeconds(program.fim))[0];
+
+    if (currentProgram !== undefined) {
+        program = currentProgram;
+    } else {  // primeiro ou último programa do dia que atravessa meia-noite
+        const firstProgram = programsOfTheDay[0];
+        const lastProgram = programsOfTheDay[programsOfTheDay.length - 1];
+
+        if (currentTimeInSeconds <= timeToSeconds(firstProgram.fim)) {
+            program = firstProgram;
+        } else if (currentTimeInSeconds >= timeToSeconds(lastProgram.inicio)) {
+            program = lastProgram;
+        }
+    }
+
+    const secondsPerDay = 86400;
+    const elapsedTime = (currentTimeInSeconds - timeToSeconds(program.inicio) + secondsPerDay) % secondsPerDay;
+    return { program, elapsedTime };
+}
+
+function startProgram(program, startTime) {
+    if (!isPlayerReady) return;
+    livePlayer.loadVideoById(program.youtubeId, startTime);
+    livePlayer.playVideo();
+}
+
+function controlProgramming() {
+    const currentProgram = getProgramAtCurrentTime();
+    if (currentProgram) {
+        const { program, elapsedTime } = currentProgram;
+        startProgram(program, elapsedTime);
+    }
+}
+
+controlProgramming();
+
+var intervalId = setInterval(() => {
+    var iframe = document.querySelector('iframe.player');
+    if (!iframe) {
+        console.log('Iframe não encontrado. Recriando player...');
+        onYouTubeIframeAPIReady();
+    } else {
+        console.log('Iframe carregado corretamente.');
+        clearInterval(intervalId); // Para o monitoramento após o iframe ser carregado
+
+        setTimeout(function () {
+            if (livePlayer && typeof livePlayer.mute === "function" && typeof livePlayer.playVideo === "function") {
+                livePlayer.mute();        // Muta o vídeo
+                livePlayer.playVideo();   // Inicia o vídeo
+            }
+        }, 2000); // 2 segundos
+    }
+}, 1000); // Verifica a cada 1 segundo
+
+function unMuteVideo() {
+    livePlayer.unMute();
+    $('#volume').fadeOut();
 }

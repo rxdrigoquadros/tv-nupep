@@ -132,12 +132,20 @@ nav ul li a.active::after {
 }
 
 #live-player {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
-    height: 100%;
-    background-color: #000;
+    aspect-ratio: 16/9;
+}
+
+#live-player::after {
+    position: absolute;
+    background-color: var(--rosa);
+    width: 100px;
+    height: 20px;
+    justify-content: center;
+    color: #FFF;
+    content: 'Ao Vivo';
+    z-index: 999;
 }
 
 .now-playing {
