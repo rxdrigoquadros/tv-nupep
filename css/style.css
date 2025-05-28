@@ -212,6 +212,17 @@ nav ul li a.active::after {
     background-color: var(--secondary-color);
 }
 
+.subscribe-section {
+    margin: 1rem;
+    height: 96px;
+}
+
+/* override YouTube subscribe iframe size 167x48 */
+div.subscribe-button div iframe {
+    width: auto !important;
+    height: auto !important;
+}
+
 .more-content {
     text-align: center;
     padding: 0.8rem 1.5rem;
