@@ -958,7 +958,7 @@ function controlProgramming() {
 controlProgramming();
 
 var intervalId = setInterval(() => {
-    var iframe = document.querySelector('iframe.player');
+    var iframe = document.querySelector('iframe#live-player');
     if (!iframe) {
         console.log('Iframe não encontrado. Recriando player...');
         onYouTubeIframeAPIReady();
