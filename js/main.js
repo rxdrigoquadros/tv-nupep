@@ -258,6 +258,9 @@ function getNextVideoTime(schedule, currentVideo) {
 // YouTube player ready event
 function onPlayerReady(event) {
     console.log("Player pronto!");
+    isPlayerReady = true;
+    controlProgramming();
+
     // Play video
     event.target.playVideo();
     
@@ -273,6 +276,7 @@ function onPlayerReady(event) {
     updateMuteIcon();
 }
 
+/*
 // YouTube player state change event
 function onPlayerStateChange(event) {
     console.log("Estado do player mudou:", event.data);
@@ -282,6 +286,7 @@ function onPlayerStateChange(event) {
         initializeLivePlayer();
     }
 }
+*/
 
 // Função para lidar com erros do player
 function onPlayerError(event) {
@@ -832,7 +837,7 @@ function setActiveTab(tab) {
     document.getElementById('about-tab').classList.remove('active');
     tab.classList.add('active');
 }
-
+/*
 // Função chamada automaticamente quando a API do YouTube estiver carregada
 function onYouTubeIframeAPIReady() {
     console.log("YouTube API carregada com sucesso!");
@@ -858,4 +863,119 @@ function onYouTubeIframeAPIReady() {
         document.getElementById('loading').style.display = 'none';
         mostrarErro("Não foi possível carregar os vídeos. Por favor, atualize a página.");
     }
+}
+*/
+
+/*--- Player MasterPiece ---*/
+
+let isPlayerReady = false;
+
+function onPlayerStateChange(event) {
+    console.log("Estado do player mudou:", event.data);
+    if (event.data == YT.PlayerState.ENDED) controlProgramming();
+}
+
+function onYouTubeIframeAPIReady() {
+    livePlayer = new YT.Player('live-player', {
+        height: '100%',
+        width: '100%',
+        videoId: '',
+        playerVars: {
+            autoplay: 1,
+            controls: 0,
+            modestbranding: 1,
+            rel: 0,
+            showinfo: 0,
+            mode: 'no-cors',
+            mute: playerMuted ? 1 : 0
+        },
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange,
+            'onError': onPlayerError
+        }
+    });
+}
+
+function timeToSeconds(time) {
+    const [hours, minutes, seconds] = time.split(":").map(Number);
+    return hours * 3600 + minutes * 60 + (seconds || 0);
+}
+
+function getSortedProgramsOfTheDay(currentDay) {
+    return programas
+        //.filter((programa) => programa.diaDaSemana == currentDay)  // descomentar para ter grade específica para cada dia da semana
+        .sort((a, b) => a.inicio < b.inicio)
+}
+
+function getProgramAtCurrentTime() {
+    let program;
+
+    const now = new Date();
+    let currentDay = now.getDay();
+    // if (currentDay == 0) currentDay = 7;  // domingo é 0 em JS e 7 em PHP  // descomentar caso utilize backend em PHP
+    const programsOfTheDay = getSortedProgramsOfTheDay(currentDay);
+
+    const currentTimeInSeconds = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+    const currentProgram = programsOfTheDay.filter((program) =>
+        // program.diaDaSemana == currentDay &&  // descomentar para ter grade específica para cada dia da semana
+        currentTimeInSeconds >= timeToSeconds(program.inicio) &&
+        currentTimeInSeconds <= timeToSeconds(program.fim))[0];
+
+    if (currentProgram !== undefined) {
+        program = currentProgram;
+    } else {  // primeiro ou último programa do dia que atravessa meia-noite
+        const firstProgram = programsOfTheDay[0];
+        const lastProgram = programsOfTheDay[programsOfTheDay.length - 1];
+
+        if (currentTimeInSeconds <= timeToSeconds(firstProgram.fim)) {
+            program = firstProgram;
+        } else if (currentTimeInSeconds >= timeToSeconds(lastProgram.inicio)) {
+            program = lastProgram;
+        }
+    }
+
+    const secondsPerDay = 86400;
+    const elapsedTime = (currentTimeInSeconds - timeToSeconds(program.inicio) + secondsPerDay) % secondsPerDay;
+    return { program, elapsedTime };
+}
+
+function startProgram(program, startTime) {
+    if (!isPlayerReady) return;
+    livePlayer.loadVideoById(program.youtubeId, startTime);
+    livePlayer.playVideo();
+}
+
+function controlProgramming() {
+    const currentProgram = getProgramAtCurrentTime();
+    if (currentProgram) {
+        const { program, elapsedTime } = currentProgram;
+        startProgram(program, elapsedTime);
+        document.getElementById('current-video-title').textContent = program.nome;
+    }
+}
+
+controlProgramming();
+
+var intervalId = setInterval(() => {
+    var iframe = document.querySelector('iframe#live-player');
+    if (!iframe) {
+        console.log('Iframe não encontrado. Recriando player...');
+        onYouTubeIframeAPIReady();
+    } else {
+        console.log('Iframe carregado corretamente.');
+        clearInterval(intervalId); // Para o monitoramento após o iframe ser carregado
+
+        setTimeout(function () {
+            if (livePlayer && typeof livePlayer.mute === "function" && typeof livePlayer.playVideo === "function") {
+                livePlayer.mute();        // Muta o vídeo
+                livePlayer.playVideo();   // Inicia o vídeo
+            }
+        }, 2000); // 2 segundos
+    }
+}, 1000); // Verifica a cada 1 segundo
+
+function unMuteVideo() {
+    livePlayer.unMute();
+    $('#volume').fadeOut();
 }
