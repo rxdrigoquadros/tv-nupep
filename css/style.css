@@ -141,8 +141,8 @@ nav ul li a.active::after {
 }
 
 .now-playing {
-    background-color: rgba(15, 52, 96, 0.9);
-    color: var(--light-color);
+    #background-color: rgba(15, 52, 96, 0.9);
+    #color: var(--light-color);
     padding: 0.5rem 1rem;
     position: relative;
     bottom: 0;
@@ -152,7 +152,7 @@ nav ul li a.active::after {
 }
 
 .now-playing h3 {
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin: 0;
 }
 
@@ -213,14 +213,69 @@ nav ul li a.active::after {
 }
 
 .subscribe-section {
-    margin: 1rem;
-    height: 96px;
+    margin: 0 1rem;
+    padding: 0 0 1rem 0;
 }
 
-/* override YouTube subscribe iframe size 167x48 */
-div.subscribe-section div iframe {
-    width: auto !important;
-    height: auto !important;
+.subscribe-label {
+    font-size: 1rem;
+}
+
+.subscribe-channel-block {
+    display: flex;
+    align-items: center;
+}
+
+.subscribe-logo {
+    max-width: 3rem;
+    height: auto;
+    border-radius: 50%;
+    margin-right: 0.7rem;
+}
+
+.subscribe-channel-info {
+    display: flex;
+    flex-direction: column; /* stack vertically */
+}
+
+.subscribe-channel-name {
+    font-family: "Roboto", "Arial", sans-serif;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.subscribers-count {
+    display: inline-block;
+    color: gray;
+    padding: 0;
+    font-family: "Roboto", "Arial", sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.8rem;
+}
+
+.subscribe-button {
+    font-family: "Roboto", "Arial", sans-serif;
+    font-size: 1.2rem;
+    border-color: transparent;
+    display: inline-block;
+    margin: 0 1rem 0 2rem;
+    padding: 0.5rem 16px 0.5rem 16px;
+    background-color: #0f0f0f;
+    border-radius: 1.5rem;
+}
+
+.subscribe-button-content {
+    padding: 2px;
+    color: #fefefe;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    word-wrap: normal;
+    font: 14px "YouTube Noto", Roboto, arial, sans-serif;
+    font-weight: bold;
+    vertical-align: middle;
 }
 
 .more-content {
