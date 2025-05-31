@@ -27,7 +27,7 @@ function mostrarErro(mensagem) {
     const errorElement = document.createElement('div');
     errorElement.className = 'error-message';
     errorElement.textContent = mensagem;
-    
+
     // Inserir antes do elemento de categorias
     const categoriesContainer = document.getElementById('categories-container');
     if (categoriesContainer) {
@@ -41,16 +41,16 @@ function mostrarErro(mensagem) {
 // Versão melhorada da função extrair ID
 function extractVideoId(url) {
     if (!url) return null;
-    
+
     try {
         // Tenta extrair de URLs comuns do YouTube
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
         const match = url.match(regExp);
-        
+
         if (match && match[2].length === 11) {
             return match[2];
         }
-        
+
         // Se não conseguir extrair, tenta outra abordagem para shorts
         if (url.includes('shorts/')) {
             const shortsMatch = url.match(/shorts\/([^/?&]+)/);
@@ -58,7 +58,7 @@ function extractVideoId(url) {
                 return shortsMatch[1];
             }
         }
-        
+
         console.warn(`Não foi possível extrair o ID do vídeo da URL: ${url}`);
         return null;
     } catch (error) {
@@ -72,7 +72,7 @@ function formatDuration(seconds) {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    
+
     if (hours > 0) {
         return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     } else {
@@ -85,14 +85,14 @@ function parseCSV(csv) {
     // Split by lines and process each line
     const lines = csv.split('\n');
     const videos = [];
-    
+
     for (let i = 0; i < lines.length; i++) {
         // Skip empty lines
         if (!lines[i].trim()) continue;
-        
+
         // Split each line by semicolon
         const parts = lines[i].split(';');
-        
+
         if (parts.length >= 4) {
             // Extract video data
             const categoria = parts[0].trim();
@@ -101,13 +101,13 @@ function parseCSV(csv) {
             if (titulo.startsWith('"') && titulo.endsWith('"')) {
                 titulo = titulo.substring(1, titulo.length - 1);
             }
-            
+
             const youtubeLink = parts[2].trim();
             const duracaoSegundos = parseInt(parts[3].trim());
-            
+
             // Extract video ID from YouTube link
             const videoId = extractVideoId(youtubeLink);
-            
+
             // Create a video object
             const video = {
                 categoria,
@@ -117,11 +117,11 @@ function parseCSV(csv) {
                 duracaoSegundos,
                 duracao: formatDuration(duracaoSegundos)
             };
-            
+
             videos.push(video);
         }
     }
-    
+
     return videos;
 }
 
@@ -129,39 +129,39 @@ function parseCSV(csv) {
 function createSchedule(videos) {
     const schedule = [];
     let currentTime = new Date();
-    
+
     // Reset to the start of the current hour
     currentTime.setMinutes(0, 0, 0);
-    
+
     // Get current local day of week (0-6, Sunday-Saturday)
     const today = currentTime.getDay();
-    
+
     // Shuffle the videos based on the day of week to create different schedules for different days
     // This creates a predictable but varying schedule
     const shuffledVideos = [...videos].sort((a, b) => {
         return (a.duracaoSegundos * (today + 1)) % 13 - (b.duracaoSegundos * (today + 1)) % 13;
     });
-    
+
     // Create a full day schedule (24 hours)
     for (let i = 0; i < 24; i++) {
         let hourStart = new Date(currentTime);
         hourStart.setHours(i);
-        
+
         let minutesUsed = 0;
         let hourVideos = [];
-        
+
         // Fill each hour with videos
         while (minutesUsed < 60) {
             // Pick videos in sequence, cycling through the list
             const video = shuffledVideos[(i + hourVideos.length) % shuffledVideos.length];
             const videoDurationMinutes = Math.ceil(video.duracaoSegundos / 60);
-            
+
             // If this video would exceed the hour, find a shorter one
             if (minutesUsed + videoDurationMinutes > 60 && hourVideos.length > 0) {
                 // Try to find a video that fits exactly
                 const remainingMinutes = 60 - minutesUsed;
                 const fitVideo = shuffledVideos.find(v => Math.ceil(v.duracaoSegundos / 60) <= remainingMinutes);
-                
+
                 if (fitVideo) {
                     hourVideos.push({
                         ...fitVideo,
@@ -180,14 +180,14 @@ function createSchedule(videos) {
                 minutesUsed += videoDurationMinutes;
             }
         }
-        
+
         // Add the videos for this hour to the schedule
         schedule.push({
             hour: i,
             videos: hourVideos
         });
     }
-    
+
     return schedule;
 }
 
@@ -196,21 +196,21 @@ function getCurrentVideo(schedule) {
     const now = new Date();
     const currentHour = now.getHours();
     const currentMinute = now.getMinutes();
-    
+
     // Find the current hour in the schedule
     const hourSchedule = schedule.find(h => h.hour === currentHour);
     if (!hourSchedule) return null;
-    
+
     // Find the video that should be playing now
     for (let i = 0; i < hourSchedule.videos.length; i++) {
         const video = hourSchedule.videos[i];
         const videoEndMinute = video.startMinute + Math.ceil(video.duracaoSegundos / 60);
-        
+
         if (currentMinute >= video.startMinute && currentMinute < videoEndMinute) {
             return video;
         }
     }
-    
+
     // If we couldn't find a video for the current minute, return the first video of the hour
     return hourSchedule.videos[0] || null;
 }
@@ -220,17 +220,17 @@ function getNextVideoTime(schedule, currentVideo) {
     const now = new Date();
     const currentHour = now.getHours();
     const currentMinute = now.getMinutes();
-    
+
     // Find the current hour in the schedule
     const hourSchedule = schedule.find(h => h.hour === currentHour);
     if (!hourSchedule) return null;
-    
+
     // Find the index of the current video
-    const currentIndex = hourSchedule.videos.findIndex(v => 
+    const currentIndex = hourSchedule.videos.findIndex(v =>
         v.titulo === currentVideo.titulo && v.startMinute === currentVideo.startMinute);
-    
+
     if (currentIndex === -1) return null;
-    
+
     // If there's a next video in this hour
     if (currentIndex < hourSchedule.videos.length - 1) {
         const nextVideo = hourSchedule.videos[currentIndex + 1];
@@ -239,11 +239,11 @@ function getNextVideoTime(schedule, currentVideo) {
             time: new Date(now.getFullYear(), now.getMonth(), now.getDate(), currentHour, nextVideo.startMinute)
         };
     }
-    
+
     // Otherwise, get the first video of the next hour
     const nextHour = (currentHour + 1) % 24;
     const nextHourSchedule = schedule.find(h => h.hour === nextHour);
-    
+
     if (nextHourSchedule && nextHourSchedule.videos.length > 0) {
         const nextVideo = nextHourSchedule.videos[0];
         return {
@@ -251,7 +251,7 @@ function getNextVideoTime(schedule, currentVideo) {
             time: new Date(now.getFullYear(), now.getMonth(), now.getDate(), nextHour, nextVideo.startMinute)
         };
     }
-    
+
     return null;
 }
 
@@ -260,7 +260,7 @@ function onPlayerReady(event) {
     console.log("Player pronto!");
     // Play video
     event.target.playVideo();
-    
+
     // Set initial volume and mute state
     if (playerMuted) {
         event.target.mute();
@@ -268,7 +268,7 @@ function onPlayerReady(event) {
         event.target.unMute();
         event.target.setVolume(playerVolume);
     }
-    
+
     // Update mute icon to match current state
     updateMuteIcon();
 }
@@ -286,11 +286,11 @@ function onPlayerStateChange(event) {
 // Função para lidar com erros do player
 function onPlayerError(event) {
     console.error("Erro no player de vídeo:", event.data);
-    
+
     let mensagemErro = "Erro ao reproduzir o vídeo.";
-    
+
     // Códigos de erro do YouTube Player API
-    switch(event.data) {
+    switch (event.data) {
         case 2:
             mensagemErro = "O ID do vídeo é inválido.";
             break;
@@ -305,9 +305,9 @@ function onPlayerError(event) {
             mensagemErro = "O proprietário do vídeo não permite que ele seja reproduzido em players incorporados.";
             break;
     }
-    
+
     document.getElementById('current-video-title').textContent = mensagemErro;
-    
+
     // Se estiver em modo ao vivo, tenta carregar o próximo vídeo após alguns segundos
     if (isLiveStream) {
         console.log("Tentando carregar próximo vídeo em 10 segundos...");
@@ -350,38 +350,38 @@ function setVolume(value) {
 // Start with the live player
 function initializeLivePlayer() {
     console.log("Iniciando live player...");
-    
+
     const currentVideo = getCurrentVideo(schedule);
-    
+
     if (!currentVideo) {
         console.error("Nenhum vídeo atual encontrado na programação");
         document.getElementById('current-video-title').textContent = "Erro ao carregar vídeo";
         return;
     }
-    
+
     if (!currentVideo.videoId) {
         console.error("ID do vídeo atual não encontrado", currentVideo);
         document.getElementById('current-video-title').textContent = "Erro ao carregar vídeo";
         return;
     }
-    
+
     console.log(`Carregando vídeo: ${currentVideo.titulo} (ID: ${currentVideo.videoId})`);
-    
+
     // Calcular segundos decorridos
     const now = new Date();
     const videoStartTime = new Date(now);
     videoStartTime.setMinutes(currentVideo.startMinute, 0, 0);
     const secondsElapsed = Math.floor((now - videoStartTime) / 1000);
-    
+
     // Atualiza o título do vídeo na interface
     document.getElementById('current-video-title').textContent = currentVideo.titulo;
-    
+
     // Define o status do player como AO VIVO
     const playerStatus = document.getElementById('player-status');
     playerStatus.textContent = "AO VIVO";
     playerStatus.classList.remove("ondemand");
     isLiveStream = true;
-    
+
     // Se API do YouTube estiver pronta, cria o player
     if (youtubeAPIReady) {
         try {
@@ -391,7 +391,7 @@ function initializeLivePlayer() {
                     videoId: currentVideo.videoId,
                     startSeconds: secondsElapsed
                 });
-                
+
                 // Aplica configurações de volume
                 if (playerMuted) {
                     livePlayer.mute();
@@ -402,14 +402,14 @@ function initializeLivePlayer() {
             } else {
                 // Cria um novo player
                 console.log("Criando nova instância do player...");
-                
+
                 // Verifica se o elemento existe
                 const playerElement = document.getElementById('live-player');
                 if (!playerElement) {
                     console.error("Elemento 'live-player' não encontrado no DOM");
                     return;
                 }
-                
+
                 livePlayer = new YT.Player('live-player', {
                     height: '100%',
                     width: '100%',
@@ -436,13 +436,13 @@ function initializeLivePlayer() {
     } else {
         console.error("API do YouTube não está pronta");
     }
-    
+
     // Agenda a atualização para o próximo vídeo
     const nextVideoInfo = getNextVideoTime(schedule, currentVideo);
     if (nextVideoInfo) {
         const timeUntilNext = nextVideoInfo.time - now;
         if (timeUntilNext > 0) {
-            console.log(`Próximo vídeo em ${Math.floor(timeUntilNext/1000)} segundos`);
+            console.log(`Próximo vídeo em ${Math.floor(timeUntilNext / 1000)} segundos`);
             setTimeout(() => {
                 initializeLivePlayer();
             }, timeUntilNext);
@@ -455,13 +455,13 @@ function playVideo(video) {
     if (video && video.videoId) {
         // Update video title
         document.getElementById('current-video-title').textContent = video.titulo;
-        
+
         // Change player status to ON DEMAND
         const playerStatus = document.getElementById('player-status');
         playerStatus.textContent = "ON DEMAND";
         playerStatus.classList.add("ondemand");
         isLiveStream = false;
-        
+
         // If YouTube API is ready, create or update the player
         if (youtubeAPIReady) {
             if (livePlayer) {
@@ -498,7 +498,7 @@ function playVideo(video) {
                 });
             }
         }
-        
+
         // Scroll to the top to see the video
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -507,7 +507,7 @@ function playVideo(video) {
 // Melhoria na função de inicialização dos players
 function initializePlayers() {
     console.log("Inicializando players...");
-    
+
     // Verifica se a API do YouTube está realmente pronta
     if (!youtubeAPIReady) {
         apiReadyAttempts++;
@@ -522,19 +522,19 @@ function initializePlayers() {
             return;
         }
     }
-    
+
     // Inicializa o live player
     initializeLivePlayer();
-    
+
     // Gera a programação
     generateProgramGuide();
-    
+
     // Sincroniza a UI de controle de volume
     updateMuteIcon();
-    
+
     // Define o valor inicial do slider de volume
     document.getElementById('volume-slider').value = playerVolume;
-    
+
     // Esconde o spinner de carregamento
     setTimeout(() => {
         document.getElementById('loading').style.display = 'none';
@@ -545,55 +545,55 @@ function initializePlayers() {
 function generateProgramGuide() {
     const programList = document.getElementById('program-list');
     programList.innerHTML = '';
-    
+
     // Get current hour to highlight current program
     const now = new Date();
     const currentHour = now.getHours();
     const currentMinute = now.getMinutes();
-    
+
     // Loop through each hour in the schedule
     schedule.forEach(hourSchedule => {
         const hour = hourSchedule.hour;
-        
+
         // Loop through videos in this hour
         hourSchedule.videos.forEach(video => {
             const startTimeStr = `${hour.toString().padStart(2, '0')}:${video.startMinute.toString().padStart(2, '0')}`;
-            
+
             // Calculate end time
             const videoDurationMinutes = Math.ceil(video.duracaoSegundos / 60);
             let endHour = hour;
             let endMinute = video.startMinute + videoDurationMinutes;
-            
+
             if (endMinute >= 60) {
                 endHour = (endHour + 1) % 24;
                 endMinute = endMinute % 60;
             }
-            
+
             const endTimeStr = `${endHour.toString().padStart(2, '0')}:${endMinute.toString().padStart(2, '0')}`;
-            
+
             // Create program item
             const programItem = document.createElement('div');
             programItem.className = 'program-item';
-            
+
             // Check if this is the current program
-            if (hour === currentHour && 
-                currentMinute >= video.startMinute && 
+            if (hour === currentHour &&
+                currentMinute >= video.startMinute &&
                 currentMinute < (video.startMinute + videoDurationMinutes)) {
                 programItem.classList.add('current-program');
             }
-            
+
             programItem.innerHTML = `
                 <div class="program-time">${startTimeStr} - ${endTimeStr}</div>
                 <div class="program-title">${video.titulo}</div>
                 <div class="program-duration">${video.duracao}</div>
             `;
-            
+
             // Add click event to play this video
             programItem.addEventListener('click', () => {
                 playVideo(video);
                 document.getElementById('schedule-modal').style.display = 'none';
             });
-            
+
             programList.appendChild(programItem);
         });
     });
@@ -608,27 +608,27 @@ function getCategories() {
 function populateCategories() {
     const categoriesList = document.getElementById('categories-list');
     categoriesList.innerHTML = '';
-    
+
     const categories = getCategories();
-    
+
     categories.forEach(category => {
         const videosInCategory = videos.filter(video => video.categoria === category);
-        
+
         const categoryElement = document.createElement('div');
         categoryElement.className = 'category';
         categoryElement.innerHTML = `
             <h3>${category}</h3>
             <p>${videosInCategory.length} vídeos disponíveis</p>
         `;
-        
+
         // Add event listener
         categoryElement.addEventListener('click', () => {
             showVideosInCategory(category);
         });
-        
+
         categoriesList.appendChild(categoryElement);
     });
-    
+
     // Certifique-se que o container começa fechado
     document.getElementById('categories-container').style.maxHeight = null;
     const toggleButton = document.getElementById('toggle-categories');
@@ -642,26 +642,28 @@ function showVideosInCategory(category) {
     const categoriesContainer = document.getElementById('categories-container');
     const videoGrid = document.getElementById('video-grid');
     const backButton = document.getElementById('back-button');
-    
+
     const videosInCategory = videos.filter(video => video.categoria === category);
-    
+
     // Clear and hide categories
     categoriesContainer.style.maxHeight = null;
     videoGrid.innerHTML = '';
-    
+
+
+
     // Show back button
     backButton.style.display = 'block';
-    
+
     // Create video cards
     videosInCategory.forEach(video => {
         const videoCard = document.createElement('div');
         videoCard.className = 'video-card';
-        
+
         // Get thumbnail URL from video ID
-        const thumbnailUrl = video.videoId ? 
+        const thumbnailUrl = video.videoId ?
             `https://img.youtube.com/vi/${video.videoId}/mqdefault.jpg` :
             '';
-        
+
         videoCard.innerHTML = `
             <div class="video-thumbnail">
                 <img src="${thumbnailUrl}" alt="${video.titulo}">
@@ -672,34 +674,34 @@ function showVideosInCategory(category) {
                 <p>${video.categoria}</p>
             </div>
         `;
-        
+
         // Add click event to play video in main player instead of modal
         videoCard.querySelector('.video-thumbnail').addEventListener('click', () => {
             playVideo(video);
         });
-        
+
         videoGrid.appendChild(videoCard);
     });
-    
+
     // Show video grid
     videoGrid.style.display = 'flex';
 }
 
 // Set up event listeners
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log("DOM carregado, configurando listeners...");
-    
+
     // Back Button
     document.getElementById('back-button').addEventListener('click', () => {
         const videoGrid = document.getElementById('video-grid');
         const backButton = document.getElementById('back-button');
         const categoriesContainer = document.getElementById('categories-container');
-        
+
         videoGrid.style.display = 'none';
         backButton.style.display = 'none';
         categoriesContainer.style.maxHeight = '2000px';
     });
-    
+
     // Modal Close
     document.getElementById('close-modal').addEventListener('click', () => {
         if (modalPlayer && modalPlayer.stopVideo) {
@@ -707,12 +709,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         document.getElementById('video-modal').style.display = 'none';
     });
-    
+
     // Schedule Modal Close
     document.getElementById('close-schedule-modal').addEventListener('click', () => {
         document.getElementById('schedule-modal').style.display = 'none';
     });
-    
+
     // Close modals when clicking outside of content
     document.getElementById('video-modal').addEventListener('click', (e) => {
         if (e.target === document.getElementById('video-modal')) {
@@ -722,15 +724,15 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('video-modal').style.display = 'none';
         }
     });
-    
+
     document.getElementById('schedule-modal').addEventListener('click', (e) => {
         if (e.target === document.getElementById('schedule-modal')) {
             document.getElementById('schedule-modal').style.display = 'none';
         }
     });
-    
+
     // Tabbed navigation
-    document.getElementById('live-tab').addEventListener('click', function(e) {
+    document.getElementById('live-tab').addEventListener('click', function (e) {
         e.preventDefault();
         setActiveTab(document.getElementById('live-tab'));
         document.getElementById('live-section').style.display = 'block';
@@ -742,20 +744,20 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('schedule-modal').style.display = 'none';
         document.getElementById('video-grid').style.display = 'none';
         document.getElementById('back-button').style.display = 'none';
-        
+
         // Rola suavemente para o topo
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
-        
+
         initializeLivePlayer(); // Refresh the player
     });
-    
+
     document.getElementById('explore-tab').addEventListener('click', (e) => {
         e.preventDefault();
         setActiveTab(document.getElementById('explore-tab'));
-        
+
         // Show categories and scroll to them
         document.getElementById('categories-container').style.maxHeight = '2000px';
         document.getElementById('categories-container').style.display = 'block';
@@ -763,30 +765,30 @@ document.addEventListener('DOMContentLoaded', function() {
         if (toggleButton) {
             toggleButton.style.display = 'block';
         }
-        
+
         // Make sure the player is still visible
         document.getElementById('live-section').style.display = 'block';
-        
+
         // Hide other content
         document.getElementById('schedule-modal').style.display = 'none';
-        
+
         // Scroll to categories
         setTimeout(() => {
             document.getElementById('categories-container').scrollIntoView({ behavior: 'smooth' });
         }, 100);
     });
-    
+
     document.getElementById('schedule-tab').addEventListener('click', (e) => {
         e.preventDefault();
         setActiveTab(document.getElementById('schedule-tab'));
-        
+
         // Update program guide
         generateProgramGuide();
-        
+
         // Show schedule modal
         document.getElementById('schedule-modal').style.display = 'block';
     });
-    
+
     document.getElementById('about-tab').addEventListener('click', (e) => {
         e.preventDefault();
         setActiveTab(document.getElementById('about-tab'));
@@ -799,18 +801,18 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('schedule-modal').style.display = 'none';
         document.getElementById('video-grid').style.display = 'none';
         document.getElementById('back-button').style.display = 'none';
-        
+
         // Show About content (to be implemented)
         alert('A página "Sobre" será implementada em breve.');
     });
-    
+
     // Volume/Mute Controls
     document.getElementById('toggle-mute').addEventListener('click', toggleMute);
-    
-    document.getElementById('volume-slider').addEventListener('input', function(e) {
+
+    document.getElementById('volume-slider').addEventListener('input', function (e) {
         const volumeValue = parseInt(e.target.value);
         setVolume(volumeValue);
-        
+
         // If volume is set to 0, mute; otherwise unmute
         if (volumeValue === 0) {
             playerMuted = true;
@@ -820,9 +822,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 livePlayer.unMute();
             }
         }
-        
+
         updateMuteIcon();
     });
+
+    // Adicionar atualização das estatísticas do YouTube
+    updateYouTubeStats();
+
+    // Atualizar a cada 5 minutos
+    setInterval(updateYouTubeStats, 5 * 60 * 1000);
 });
 
 function setActiveTab(tab) {
@@ -837,18 +845,18 @@ function setActiveTab(tab) {
 function onYouTubeIframeAPIReady() {
     console.log("YouTube API carregada com sucesso!");
     youtubeAPIReady = true;
-    
+
     // Processa o CSV embutido
     videos = parseCSV(csvRaw);
-    
+
     if (videos.length > 0) {
         console.log(`${videos.length} vídeos processados do CSV`);
         // Cria o cronograma de programação
         schedule = createSchedule(videos);
-        
+
         // Preenche as categorias
         populateCategories();
-        
+
         // Inicializa o player com um pequeno atraso para garantir que o DOM esteja pronto
         setTimeout(() => {
             initializePlayers();
@@ -859,3 +867,160 @@ function onYouTubeIframeAPIReady() {
         mostrarErro("Não foi possível carregar os vídeos. Por favor, atualize a página.");
     }
 }
+
+// === INÍCIO DO CÓDIGO DO CONTADOR DINÂMICO DO YOUTUBE ===
+
+// URL da sua Lambda
+const YOUTUBE_API_URL = 'https://4bfaovwd4ya3cp62te3w7uoq7i0ayltx.lambda-url.us-east-1.on.aws/';
+
+// Função para formatar números
+function formatSubscriberCount(count) {
+    const num = parseInt(count);
+
+    if (num >= 1000000) {
+        return (num / 1000000).toFixed(1).replace('.', ',') + 'M';
+    } else if (num >= 1000) {
+        // Para mil, usar formato brasileiro: 2,64 mil
+        return (num / 1000).toFixed(2).replace('.', ',') + ' mil';
+    } else {
+        return num.toString();
+    }
+}
+
+function formatViewCount(count) {
+    return parseInt(count).toLocaleString('pt-BR');
+}
+
+// Função para buscar e atualizar estatísticas com cache
+async function updateYouTubeStats() {
+    const CACHE_KEY = 'youtube_stats_cache';
+    const CACHE_DURATION = 5 * 60 * 1000; // 5 minutos
+
+    try {
+        // Verificar cache primeiro
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+            const { data, timestamp } = JSON.parse(cached);
+            const now = Date.now();
+
+            // Se o cache ainda é válido, usar ele
+            if (now - timestamp < CACHE_DURATION) {
+                console.log('Usando cache local das estatísticas do YouTube');
+                updateYouTubeUI(data);
+
+                // Ainda assim, buscar dados novos em background se já passou 1 minuto
+                if (now - timestamp > 60000) {
+                    fetchAndUpdateStats(false); // false = não atualizar UI imediatamente
+                }
+                return;
+            }
+        }
+
+        // Se não tem cache válido, buscar dados novos
+        await fetchAndUpdateStats(true);
+
+    } catch (error) {
+        console.error('Erro ao atualizar estatísticas do YouTube:', error);
+
+        // Se houver erro, tentar usar cache antigo
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+            const { data } = JSON.parse(cached);
+            updateYouTubeUI(data);
+        }
+    }
+}
+
+// Função para buscar dados da API
+async function fetchAndUpdateStats(updateUI = true) {
+    try {
+        console.log('Buscando estatísticas do YouTube da API...');
+
+        const response = await fetch(YOUTUBE_API_URL);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Salvar no cache
+        localStorage.setItem('youtube_stats_cache', JSON.stringify({
+            data,
+            timestamp: Date.now()
+        }));
+
+        // Atualizar UI se solicitado
+        if (updateUI) {
+            updateYouTubeUI(data);
+        }
+
+        console.log('Estatísticas do YouTube atualizadas:', data);
+
+    } catch (error) {
+        console.error('Erro ao buscar estatísticas:', error);
+        throw error;
+    }
+}
+
+// Função para atualizar a UI
+function updateYouTubeUI(data) {
+    // Atualizar contador de inscritos
+    const subscriberElement = document.querySelector('.subscribers-count');
+    if (subscriberElement && data.subscriberCount) {
+        const formatted = formatSubscriberCount(data.subscriberCount);
+        subscriberElement.textContent = formatted + ' inscritos';
+
+        // Adicionar animação sutil
+        subscriberElement.style.transition = 'opacity 0.3s';
+        subscriberElement.style.opacity = '0.7';
+        setTimeout(() => {
+            subscriberElement.style.opacity = '1';
+        }, 300);
+    }
+
+    // Atualizar nome do canal se disponível
+    if (data.channelTitle) {
+        const channelNameElement = document.querySelector('.subscribe-channel-name');
+        if (channelNameElement) {
+            channelNameElement.textContent = data.channelTitle;
+        }
+    }
+
+    // Atualizar thumbnail se disponível
+    if (data.thumbnail) {
+        const logoElement = document.querySelector('.subscribe-logo');
+        if (logoElement) {
+            logoElement.src = data.thumbnail;
+        }
+    }
+
+    // Se quiser mostrar visualizações totais, adicione onde desejar
+    if (data.viewCount) {
+        // Criar elemento de visualizações se não existir
+        let viewsElement = document.getElementById('channel-views');
+        if (!viewsElement && document.querySelector('.subscribe-channel-info')) {
+            viewsElement = document.createElement('label');
+            viewsElement.id = 'channel-views';
+            viewsElement.className = 'channel-views';
+            viewsElement.style.cssText = 'display: block; color: gray; font-size: 0.9rem;';
+            document.querySelector('.subscribe-channel-info').appendChild(viewsElement);
+        }
+
+        if (viewsElement) {
+            viewsElement.textContent = formatViewCount(data.viewCount) + ' visualizações';
+        }
+    }
+}
+
+// Adicionar ao DOMContentLoaded existente
+document.addEventListener('DOMContentLoaded', function () {
+    // ... seu código existente ...
+
+    // Adicionar atualização das estatísticas do YouTube
+    updateYouTubeStats();
+
+    // Atualizar a cada 5 minutos
+    setInterval(updateYouTubeStats, 5 * 60 * 1000);
+});
+
+// === FIM DO CÓDIGO DO CONTADOR DINÂMICO DO YOUTUBE ===
