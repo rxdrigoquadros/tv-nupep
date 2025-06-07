@@ -721,8 +721,9 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('schedule-modal').style.display = 'none';
         }
     });
-    
+
     // Tabbed navigation
+    /*
     document.getElementById('live-tab').addEventListener('click', function(e) {
         e.preventDefault();
         setActiveTab(document.getElementById('live-tab'));
@@ -796,7 +797,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show About content (to be implemented)
         alert('A página "Sobre" será implementada em breve.');
     });
-    
+    */
+
     // Volume/Mute Controls
     document.getElementById('toggle-mute').addEventListener('click', toggleMute);
     
