@@ -15,10 +15,13 @@
         <div class="logo">TV NUPEP</div>
         <nav id="main-nav">
             <ul>
+                <!-- TODO(lseki): corrigir a grade em js/main.js:createSchedule -->
+                <!--
                 <li><a href="#" class="active" id="live-tab">Ao vivo</a></li>
                 <li><a href="#" id="explore-tab">Explorar</a></li>
                 <li><a href="#" id="schedule-tab">Programação da TV</a></li>
                 <li><a href="#" id="about-tab">Sobre</a></li>
+                -->
             </ul>
         </nav>
     </header>
@@ -28,7 +31,6 @@
         <div id="player-container">
             <div id="live-player"></div>
             <div class="player-status" id="player-status">AO VIVO</div>
-            <!--TODO corrigir posição do controle de volume-->
             <div class="player-controls">
                 <button id="toggle-mute" class="control-button">
                     <span class="mute-icon">🔊</span>
@@ -36,6 +38,7 @@
                 <div class="volume-slider-container">
                     <input type="range" id="volume-slider" min="0" max="100" value="100" class="volume-slider">
                 </div>
+            </div>
         </div>
         <div class="now-playing">
             <h3 id="current-video-title">Carregando...</h3>

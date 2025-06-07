@@ -167,7 +167,7 @@ nav ul li a.active::after {
 /* Player controls */
 .player-controls {
     position: absolute;
-    bottom: 35px;
+    bottom: 215px;
     right: 10px;
     z-index: 30;
     display: flex;
@@ -193,7 +193,7 @@ nav ul li a.active::after {
 }
 
 .player-controls:hover .volume-slider-container {
-    width: 80px;
+    width: 85px;
 }
 
 .volume-slider {
@@ -796,7 +796,15 @@ nav ul li a.active::after {
     }
 
     .player-controls {
-        bottom: 40px;
+        position: absolute;
+        bottom: 250px;
+        right: 10px;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        background-color: rgba(15, 52, 96, 0.8);
+        padding: 5px 10px;
+        border-radius: 4px;
     }
 }
 

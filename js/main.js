@@ -113,6 +113,7 @@ function parseCSV(csv) {
 }
 
 // Create a TV schedule based on video duration
+/* TODO(lseki): corrigir a montagem do cronograma */
 function createSchedule(videos) {
     const schedule = [];
     let currentTime = new Date();
