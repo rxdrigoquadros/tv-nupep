@@ -15,16 +15,20 @@
         <div class="logo">TV NUPEP</div>
         <nav id="main-nav">
             <ul>
+                <!-- TODO(lseki): corrigir a grade em js/main.js:createSchedule -->
+                <!--
                 <li><a href="#" class="active" id="live-tab">Ao vivo</a></li>
                 <li><a href="#" id="explore-tab">Explorar</a></li>
                 <li><a href="#" id="schedule-tab">Programação da TV</a></li>
                 <li><a href="#" id="about-tab">Sobre</a></li>
+                -->
             </ul>
         </nav>
     </header>
 
+    <!-- Player do YouTube -->
     <div class="player-section" id="live-section">
-        <div class="player-container">
+        <div id="player-container">
             <div id="live-player"></div>
             <div class="player-status" id="player-status">AO VIVO</div>
             <div class="player-controls">
@@ -56,7 +60,6 @@
 
     </div>
 
-    
     <!-- Adicione o botão aqui - esta é a parte que faltava -->
     <a href="nupep/index.html" class="more-content" id="toggle-categories">
         Outros programas e mais informações, clique aqui
@@ -95,6 +98,8 @@
 
     <!-- Scripts -->
     <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="js/programas.js"></script><!-- importa a variável `programas` com uma lista de programas -->
     <script src="js/main.js"></script>
+
 </body>
 </html>
