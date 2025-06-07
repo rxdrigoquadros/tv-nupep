@@ -54,7 +54,6 @@ for (const programa of programasInicial) {
     programa["fim"] = date.toISOString().slice(11,19);
 
     seconds = date.getTime()/1000 + 1;
-    console.log(programa);
 }
 
 // popula a lista de programas até meia-noite
