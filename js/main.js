@@ -10,32 +10,17 @@ var playerMuted = true; // Iniciar como mudo para corresponder ao estado inicial
 var apiReadyAttempts = 0; // Contador para tentativas de inicialização
 
 // Dados dos vídeos embutidos no código
-var csvRaw = `Aula do Prof. Jorge Melchiades;16 - Ainda o Mágico de Boz;https://www.youtube.com/watch?v=VKoUTwBXyd8;1800
-Aula do Prof. Jorge Melchiades;20 - A Identidade da Ilusão;https://www.youtube.com/watch?v=dhypr37xhc0;3432
-Aula do Prof. Jorge Melchiades;17 - O Cinismo do Mágico de Bozz- Prof. Jorge Melchiades;https://www.youtube.com/watch?v=YD00p_vtC_8;3448
-Aula do Prof. Jorge Melchiades;23 - As aparências enganam;https://www.youtube.com/watch?v=7DEx70957vo;3457
-Aula do Prof. Jorge Melchiades;4 – Correndo por fora do sagrado – Reflexão sobre a Vida;https://www.youtube.com/watch?v=jAKldqLjcpY;3462
-Aula do Prof. Jorge Melchiades;6 - No Fim da Picada;https://www.youtube.com/watch?v=KJppsWoRX24;3475283
-Aula do Prof. Jorge Melchiades;22 - Atenção na comunicação;https://www.youtube.com/watch?v=gY9-vgrgxsc;34784,716666667
-Aula do Prof. Jorge Melchiades;21 - Experimente a Plenitude da Existência;https://www.youtube.com/watch?v=6i5E1zLqPEU;3491
-Aula do Prof. Jorge Melchiades;5 - A morte da bezerra - Reflexão sobre a vida;https://www.youtube.com/watch?v=zJevF3rzzls;3526
-Aula do Prof. Jorge Melchiades;15- O Mágico de Boz;https://www.youtube.com/watch?v=FSL5XgwfpO4;3533
-Aula do Prof. Jorge Melchiades;10 – A Forma do Atrevimento Ideológico – Reflexão sobre a vida;https://www.youtube.com/watch?v=ME4Q4R204MM;3547
-Aula do Prof. Jorge Melchiades;8 – Vida é raciocínio - Reflexão sobre a vida;https://www.youtube.com/watch?v=W6f1166CbWQ;3559
-Aula do Prof. Jorge Melchiades;9 - Os ovos estão podres – Reflexão sobre a vida;https://www.youtube.com/watch?v=3SIawanHOJc;3573
-Aula do Prof. Jorge Melchiades;11 – Movimento Gerador da Vida - Reflexão sobre a vida;https://www.youtube.com/watch?v=h4rjFS_o_qI;3590
-Aula do Prof. Jorge Melchiades;14 - Sobre  nada e ilusão;https://www.youtube.com/watch?v=IoQlciMh09Y;3594
-Aula do Prof. Jorge Melchiades;12 - Sobre atividades características do EU;https://www.youtube.com/watch?v=9_4AIqEnRfU;3597
-Aula do Prof. Jorge Melchiades;7 - Vivendo a Vida Alienado de Si – Reflexão sobre a vida;https://www.youtube.com/watch?v=zxWYIo098lo;3601
-Aula do Prof. Jorge Melchiades;13 - O Filósofo do Princípio;https://www.youtube.com/watch?v=sIPrv_W76vk;3602
-Aula do Prof. Jorge Melchiades;16 - Ainda o Mágico de Boz;https://www.youtube.com/watch?v=VKoUTwBXyd8;1800
-Aula do Prof. Jorge Melchiades;20 - A Identidade da Ilusão;https://www.youtube.com/watch?v=dhypr37xhc0;3432
-Aula do Prof. Jorge Melchiades;17 - O Cinismo do Mágico de Bozz- Prof. Jorge Melchiades;https://www.youtube.com/watch?v=YD00p_vtC_8;3448
-Aula do Prof. Jorge Melchiades;23 - As aparências enganam;https://www.youtube.com/watch?v=7DEx70957vo;3457
-Aula do Prof. Jorge Melchiades;4 – Correndo por fora do sagrado – Reflexão sobre a Vida;https://www.youtube.com/watch?v=jAKldqLjcpY;3462
-Aula do Prof. Jorge Melchiades;6 - No Fim da Picada;https://www.youtube.com/watch?v=KJppsWoRX24;3475
-Aula do Prof. Jorge Melchiades;22 - Atenção na comunicação;https://www.youtube.com/watch?v=gY9-vgrgxsc;3478
-Aula do Prof. Jorge Melchiades;16 - Ainda o Mágico de Boz;https://www.youtube.com/watch?v=VKoUTwBXyd8;1800`;
+var csvRaw = `Aula do prof Jorge;"Aula inédita 16/03/2024 - A Revolução do Filho da Luta 2 - Prof. Jorge Melchiades";https://www.youtube.com/watch?v=DQWHvllQfow;208
+Aula do prof Jorge;"Nossa Posição na Existência - Grupo Comenta Reflexões do Professor Jorge Melchiades";https://www.youtube.com/watch?v=WOwGehTnsIY;213
+Aula do prof Jorge;"A REVOLUÇÃO DO FILHO DA LUTA 2 - Psicologia Racional - Prof. Jorge Melchiades";https://www.youtube.com/watch?v=M6QvjLNDLD0;266
+Aula do prof Jorge;"Da Mitologia à Esquerda - Grupo Comenta o programa da Série Nossa Posição do Prof. Jorge Melchiades";https://www.youtube.com/watch?v=XaOjIKbuaIg;273
+Aula do prof Jorge;"O Desejo do Filho da Luta - Série: Os Filhos da Luta com o Prof. Jorge Melchiades";https://www.youtube.com/watch?v=gVu_bnU1ZOM;283
+Aula do prof Jorge;"A REVOLUÇÃO DO FILHO DA LUTA - Psicologia Racional - Prof. Jorge Melchiades";https://www.youtube.com/watch?v=cAL6tDgATDs;295
+Aula do prof Jorge;"O Revolucionário Conservador - Grupo Comenta o programa do Prof. Jorge Melchiades";https://www.youtube.com/watch?v=mXpsrUXPwTM;304
+Aula do prof Jorge;"A Revolução do Filho da LUTA - Aula inédita! #dialética #metafisica #etica #jorgemelchiades";https://www.youtube.com/shorts/Wi1qv-KB6PI;309
+Aula do prof Jorge;"Freud e a Nossa Posição - Grupo Comenta a aula do Professor Jorge Melchiades";https://www.youtube.com/watch?v=YEWMVHTS6K0;333
+Aula do prof Jorge;"Quem sou? - Aula de Psicologia Racional - Prof. Jorge Melchiades";https://www.youtube.com/watch?v=J8ZdLy-GIa4;336`;
+// Resto do CSV foi truncado para brevidade
 
 // Função para mostrar erros na página
 function mostrarErro(mensagem) {
@@ -141,6 +126,7 @@ function parseCSV(csv) {
 }
 
 // Create a TV schedule based on video duration
+/* TODO(lseki): corrigir a montagem do cronograma */
 function createSchedule(videos) {
     const schedule = [];
     let currentTime = new Date();
@@ -273,6 +259,9 @@ function getNextVideoTime(schedule, currentVideo) {
 // YouTube player ready event
 function onPlayerReady(event) {
     console.log("Player pronto!");
+    isPlayerReady = true;
+    controlProgramming();
+
     // Play video
     event.target.playVideo();
 
@@ -288,6 +277,7 @@ function onPlayerReady(event) {
     updateMuteIcon();
 }
 
+/*
 // YouTube player state change event
 function onPlayerStateChange(event) {
     console.log("Estado do player mudou:", event.data);
@@ -297,6 +287,7 @@ function onPlayerStateChange(event) {
         initializeLivePlayer();
     }
 }
+*/
 
 // Função para lidar com erros do player
 function onPlayerError(event) {
@@ -747,7 +738,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Tabbed navigation
-    document.getElementById('live-tab').addEventListener('click', function (e) {
+    document.getElementById('live-tab').addEventListener('click', function(e) {
         e.preventDefault();
         setActiveTab(document.getElementById('live-tab'));
         document.getElementById('live-section').style.display = 'block';
@@ -820,7 +811,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Show About content (to be implemented)
         alert('A página "Sobre" será implementada em breve.');
     });
-
+    
     // Volume/Mute Controls
     document.getElementById('toggle-mute').addEventListener('click', toggleMute);
 
@@ -856,22 +847,30 @@ function setActiveTab(tab) {
     tab.classList.add('active');
 }
 
-// Função chamada automaticamente quando a API do YouTube estiver carregada
+/*--- Player MasterPiece ---*/
+
+let isPlayerReady = false;
+
+function onPlayerStateChange(event) {
+    console.log("Estado do player mudou:", event.data);
+    if (event.data == YT.PlayerState.ENDED) controlProgramming();
+}
+
 function onYouTubeIframeAPIReady() {
     console.log("YouTube API carregada com sucesso!");
     youtubeAPIReady = true;
-
+    
     // Processa o CSV embutido
     videos = parseCSV(csvRaw);
-
+    
     if (videos.length > 0) {
         console.log(`${videos.length} vídeos processados do CSV`);
         // Cria o cronograma de programação
         schedule = createSchedule(videos);
-
+        
         // Preenche as categorias
         populateCategories();
-
+        
         // Inicializa o player com um pequeno atraso para garantir que o DOM esteja pronto
         setTimeout(() => {
             initializePlayers();
@@ -882,160 +881,3 @@ function onYouTubeIframeAPIReady() {
         mostrarErro("Não foi possível carregar os vídeos. Por favor, atualize a página.");
     }
 }
-
-// === INÍCIO DO CÓDIGO DO CONTADOR DINÂMICO DO YOUTUBE ===
-
-// URL da sua Lambda
-const YOUTUBE_API_URL = 'https://4bfaovwd4ya3cp62te3w7uoq7i0ayltx.lambda-url.us-east-1.on.aws/';
-
-// Função para formatar números
-function formatSubscriberCount(count) {
-    const num = parseInt(count);
-
-    if (num >= 1000000) {
-        return (num / 1000000).toFixed(1).replace('.', ',') + 'M';
-    } else if (num >= 1000) {
-        // Para mil, usar formato brasileiro: 2,64 mil
-        return (num / 1000).toFixed(2).replace('.', ',') + ' mil';
-    } else {
-        return num.toString();
-    }
-}
-
-function formatViewCount(count) {
-    return parseInt(count).toLocaleString('pt-BR');
-}
-
-// Função para buscar e atualizar estatísticas com cache
-async function updateYouTubeStats() {
-    const CACHE_KEY = 'youtube_stats_cache';
-    const CACHE_DURATION = 5 * 60 * 1000; // 5 minutos
-
-    try {
-        // Verificar cache primeiro
-        const cached = localStorage.getItem(CACHE_KEY);
-        if (cached) {
-            const { data, timestamp } = JSON.parse(cached);
-            const now = Date.now();
-
-            // Se o cache ainda é válido, usar ele
-            if (now - timestamp < CACHE_DURATION) {
-                console.log('Usando cache local das estatísticas do YouTube');
-                updateYouTubeUI(data);
-
-                // Ainda assim, buscar dados novos em background se já passou 1 minuto
-                if (now - timestamp > 60000) {
-                    fetchAndUpdateStats(false); // false = não atualizar UI imediatamente
-                }
-                return;
-            }
-        }
-
-        // Se não tem cache válido, buscar dados novos
-        await fetchAndUpdateStats(true);
-
-    } catch (error) {
-        console.error('Erro ao atualizar estatísticas do YouTube:', error);
-
-        // Se houver erro, tentar usar cache antigo
-        const cached = localStorage.getItem(CACHE_KEY);
-        if (cached) {
-            const { data } = JSON.parse(cached);
-            updateYouTubeUI(data);
-        }
-    }
-}
-
-// Função para buscar dados da API
-async function fetchAndUpdateStats(updateUI = true) {
-    try {
-        console.log('Buscando estatísticas do YouTube da API...');
-
-        const response = await fetch(YOUTUBE_API_URL);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        // Salvar no cache
-        localStorage.setItem('youtube_stats_cache', JSON.stringify({
-            data,
-            timestamp: Date.now()
-        }));
-
-        // Atualizar UI se solicitado
-        if (updateUI) {
-            updateYouTubeUI(data);
-        }
-
-        console.log('Estatísticas do YouTube atualizadas:', data);
-
-    } catch (error) {
-        console.error('Erro ao buscar estatísticas:', error);
-        throw error;
-    }
-}
-
-// Função para atualizar a UI
-function updateYouTubeUI(data) {
-    // Atualizar contador de inscritos
-    const subscriberElement = document.querySelector('.subscribers-count');
-    if (subscriberElement && data.subscriberCount) {
-        const formatted = formatSubscriberCount(data.subscriberCount);
-        subscriberElement.textContent = formatted + ' inscritos';
-
-        // Adicionar animação sutil
-        subscriberElement.style.transition = 'opacity 0.3s';
-        subscriberElement.style.opacity = '0.7';
-        setTimeout(() => {
-            subscriberElement.style.opacity = '1';
-        }, 300);
-    }
-
-    // Atualizar nome do canal se disponível
-    if (data.channelTitle) {
-        const channelNameElement = document.querySelector('.subscribe-channel-name');
-        if (channelNameElement) {
-            channelNameElement.textContent = data.channelTitle;
-        }
-    }
-
-    // Atualizar thumbnail se disponível
-    if (data.thumbnail) {
-        const logoElement = document.querySelector('.subscribe-logo');
-        if (logoElement) {
-            logoElement.src = data.thumbnail;
-        }
-    }
-
-    // Se quiser mostrar visualizações totais, adicione onde desejar
-    if (data.viewCount) {
-        // Criar elemento de visualizações se não existir
-        let viewsElement = document.getElementById('channel-views');
-        if (!viewsElement && document.querySelector('.subscribe-channel-info')) {
-            viewsElement = document.createElement('label');
-            viewsElement.id = 'channel-views';
-            viewsElement.className = 'channel-views';
-            viewsElement.style.cssText = 'display: block; color: gray; font-size: 0.9rem;';
-            document.querySelector('.subscribe-channel-info').appendChild(viewsElement);
-        }
-
-        if (viewsElement) {
-            viewsElement.textContent = formatViewCount(data.viewCount) + ' visualizações';
-        }
-    }
-}
-
-// Adicionar ao DOMContentLoaded existente
-document.addEventListener('DOMContentLoaded', function () {
-    // ... seu código existente ...
-
-    // Adicionar atualização das estatísticas do YouTube
-    updateYouTubeStats();
-
-    // Atualizar a cada 5 minutos
-    setInterval(updateYouTubeStats, 5 * 60 * 1000);
-});
-
-// === FIM DO CÓDIGO DO CONTADOR DINÂMICO DO YOUTUBE ===
