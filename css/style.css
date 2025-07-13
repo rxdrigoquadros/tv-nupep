@@ -822,7 +822,11 @@ nav ul li a.active::after {
     nav ul li a {
         font-size: 0.9rem;
     }
-    
+
+    .player-section {
+        margin-top: 150px;
+    }
+
     .slider-arrow {
         width: 35px;
         height: 35px;

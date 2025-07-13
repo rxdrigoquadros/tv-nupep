@@ -722,9 +722,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+
     // Tabbed navigation
     /*
-    document.getElementById('live-tab').addEventListener('click', function(e) {
+    document.getElementById('live-tab').addEventListener('click', function (e) {
         e.preventDefault();
         setActiveTab(document.getElementById('live-tab'));
         document.getElementById('live-section').style.display = 'block';
@@ -941,3 +942,160 @@ function unMuteVideo() {
     livePlayer.unMute();
     $('#volume').fadeOut();
 }
+
+// === INÍCIO DO CÓDIGO DO CONTADOR DINÂMICO DO YOUTUBE ===
+
+// URL da sua Lambda
+const YOUTUBE_API_URL = 'https://4bfaovwd4ya3cp62te3w7uoq7i0ayltx.lambda-url.us-east-1.on.aws/';
+
+// Função para formatar números
+function formatSubscriberCount(count) {
+    const num = parseInt(count);
+
+    if (num >= 1000000) {
+        return (num / 1000000).toFixed(1).replace('.', ',') + 'M';
+    } else if (num >= 1000) {
+        // Para mil, usar formato brasileiro: 2,64 mil
+        return (num / 1000).toFixed(2).replace('.', ',') + ' mil';
+    } else {
+        return num.toString();
+    }
+}
+
+function formatViewCount(count) {
+    return parseInt(count).toLocaleString('pt-BR');
+}
+
+// Função para buscar e atualizar estatísticas com cache
+async function updateYouTubeStats() {
+    const CACHE_KEY = 'youtube_stats_cache';
+    const CACHE_DURATION = 5 * 60 * 1000; // 5 minutos
+
+    try {
+        // Verificar cache primeiro
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+            const { data, timestamp } = JSON.parse(cached);
+            const now = Date.now();
+
+            // Se o cache ainda é válido, usar ele
+            if (now - timestamp < CACHE_DURATION) {
+                console.log('Usando cache local das estatísticas do YouTube');
+                updateYouTubeUI(data);
+
+                // Ainda assim, buscar dados novos em background se já passou 1 minuto
+                if (now - timestamp > 60000) {
+                    fetchAndUpdateStats(false); // false = não atualizar UI imediatamente
+                }
+                return;
+            }
+        }
+
+        // Se não tem cache válido, buscar dados novos
+        await fetchAndUpdateStats(true);
+
+    } catch (error) {
+        console.error('Erro ao atualizar estatísticas do YouTube:', error);
+
+        // Se houver erro, tentar usar cache antigo
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+            const { data } = JSON.parse(cached);
+            updateYouTubeUI(data);
+        }
+    }
+}
+
+// Função para buscar dados da API
+async function fetchAndUpdateStats(updateUI = true) {
+    try {
+        console.log('Buscando estatísticas do YouTube da API...');
+
+        const response = await fetch(YOUTUBE_API_URL);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        // Salvar no cache
+        localStorage.setItem('youtube_stats_cache', JSON.stringify({
+            data,
+            timestamp: Date.now()
+        }));
+
+        // Atualizar UI se solicitado
+        if (updateUI) {
+            updateYouTubeUI(data);
+        }
+
+        console.log('Estatísticas do YouTube atualizadas:', data);
+
+    } catch (error) {
+        console.error('Erro ao buscar estatísticas:', error);
+        throw error;
+    }
+}
+
+// Função para atualizar a UI
+function updateYouTubeUI(data) {
+    // Atualizar contador de inscritos
+    const subscriberElement = document.querySelector('.subscribers-count');
+    if (subscriberElement && data.subscriberCount) {
+        const formatted = formatSubscriberCount(data.subscriberCount);
+        subscriberElement.textContent = formatted + ' inscritos';
+
+        // Adicionar animação sutil
+        subscriberElement.style.transition = 'opacity 0.3s';
+        subscriberElement.style.opacity = '0.7';
+        setTimeout(() => {
+            subscriberElement.style.opacity = '1';
+        }, 300);
+    }
+
+    // Atualizar nome do canal se disponível
+    if (data.channelTitle) {
+        const channelNameElement = document.querySelector('.subscribe-channel-name');
+        if (channelNameElement) {
+            channelNameElement.textContent = data.channelTitle;
+        }
+    }
+
+    // Atualizar thumbnail se disponível
+    if (data.thumbnail) {
+        const logoElement = document.querySelector('.subscribe-logo');
+        if (logoElement) {
+            logoElement.src = data.thumbnail;
+        }
+    }
+
+    // Se quiser mostrar visualizações totais, adicione onde desejar
+    if (data.viewCount) {
+        // Criar elemento de visualizações se não existir
+        let viewsElement = document.getElementById('channel-views');
+        if (!viewsElement && document.querySelector('.subscribe-channel-info')) {
+            viewsElement = document.createElement('label');
+            viewsElement.id = 'channel-views';
+            viewsElement.className = 'channel-views';
+            viewsElement.style.cssText = 'display: block; color: gray; font-size: 0.9rem;';
+            document.querySelector('.subscribe-channel-info').appendChild(viewsElement);
+        }
+
+        if (viewsElement) {
+            viewsElement.textContent = formatViewCount(data.viewCount) + ' visualizações';
+        }
+    }
+}
+
+// Adicionar ao DOMContentLoaded existente
+document.addEventListener('DOMContentLoaded', function () {
+    // ... seu código existente ...
+
+    // Adicionar atualização das estatísticas do YouTube
+    updateYouTubeStats();
+
+    // Atualizar a cada 5 minutos
+    setInterval(updateYouTubeStats, 5 * 60 * 1000);
+});
+
+// === FIM DO CÓDIGO DO CONTADOR DINÂMICO DO YOUTUBE ===
