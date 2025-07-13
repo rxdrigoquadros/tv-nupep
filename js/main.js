@@ -10,17 +10,32 @@ var playerMuted = true; // Iniciar como mudo para corresponder ao estado inicial
 var apiReadyAttempts = 0; // Contador para tentativas de inicialização
 
 // Dados dos vídeos embutidos no código
-var csvRaw = `Aula do prof Jorge;"Aula inédita 16/03/2024 - A Revolução do Filho da Luta 2 - Prof. Jorge Melchiades";https://www.youtube.com/watch?v=DQWHvllQfow;208
-Aula do prof Jorge;"Nossa Posição na Existência - Grupo Comenta Reflexões do Professor Jorge Melchiades";https://www.youtube.com/watch?v=WOwGehTnsIY;213
-Aula do prof Jorge;"A REVOLUÇÃO DO FILHO DA LUTA 2 - Psicologia Racional - Prof. Jorge Melchiades";https://www.youtube.com/watch?v=M6QvjLNDLD0;266
-Aula do prof Jorge;"Da Mitologia à Esquerda - Grupo Comenta o programa da Série Nossa Posição do Prof. Jorge Melchiades";https://www.youtube.com/watch?v=XaOjIKbuaIg;273
-Aula do prof Jorge;"O Desejo do Filho da Luta - Série: Os Filhos da Luta com o Prof. Jorge Melchiades";https://www.youtube.com/watch?v=gVu_bnU1ZOM;283
-Aula do prof Jorge;"A REVOLUÇÃO DO FILHO DA LUTA - Psicologia Racional - Prof. Jorge Melchiades";https://www.youtube.com/watch?v=cAL6tDgATDs;295
-Aula do prof Jorge;"O Revolucionário Conservador - Grupo Comenta o programa do Prof. Jorge Melchiades";https://www.youtube.com/watch?v=mXpsrUXPwTM;304
-Aula do prof Jorge;"A Revolução do Filho da LUTA - Aula inédita! #dialética #metafisica #etica #jorgemelchiades";https://www.youtube.com/shorts/Wi1qv-KB6PI;309
-Aula do prof Jorge;"Freud e a Nossa Posição - Grupo Comenta a aula do Professor Jorge Melchiades";https://www.youtube.com/watch?v=YEWMVHTS6K0;333
-Aula do prof Jorge;"Quem sou? - Aula de Psicologia Racional - Prof. Jorge Melchiades";https://www.youtube.com/watch?v=J8ZdLy-GIa4;336`;
-// Resto do CSV foi truncado para brevidade
+var csvRaw = `Aula do Prof. Jorge Melchiades;16 - Ainda o Mágico de Boz;https://www.youtube.com/watch?v=VKoUTwBXyd8;1800
+Aula do Prof. Jorge Melchiades;20 - A Identidade da Ilusão;https://www.youtube.com/watch?v=dhypr37xhc0;3432
+Aula do Prof. Jorge Melchiades;17 - O Cinismo do Mágico de Bozz- Prof. Jorge Melchiades;https://www.youtube.com/watch?v=YD00p_vtC_8;3448
+Aula do Prof. Jorge Melchiades;23 - As aparências enganam;https://www.youtube.com/watch?v=7DEx70957vo;3457
+Aula do Prof. Jorge Melchiades;4 – Correndo por fora do sagrado – Reflexão sobre a Vida;https://www.youtube.com/watch?v=jAKldqLjcpY;3462
+Aula do Prof. Jorge Melchiades;6 - No Fim da Picada;https://www.youtube.com/watch?v=KJppsWoRX24;3475283
+Aula do Prof. Jorge Melchiades;22 - Atenção na comunicação;https://www.youtube.com/watch?v=gY9-vgrgxsc;34784,716666667
+Aula do Prof. Jorge Melchiades;21 - Experimente a Plenitude da Existência;https://www.youtube.com/watch?v=6i5E1zLqPEU;3491
+Aula do Prof. Jorge Melchiades;5 - A morte da bezerra - Reflexão sobre a vida;https://www.youtube.com/watch?v=zJevF3rzzls;3526
+Aula do Prof. Jorge Melchiades;15- O Mágico de Boz;https://www.youtube.com/watch?v=FSL5XgwfpO4;3533
+Aula do Prof. Jorge Melchiades;10 – A Forma do Atrevimento Ideológico – Reflexão sobre a vida;https://www.youtube.com/watch?v=ME4Q4R204MM;3547
+Aula do Prof. Jorge Melchiades;8 – Vida é raciocínio - Reflexão sobre a vida;https://www.youtube.com/watch?v=W6f1166CbWQ;3559
+Aula do Prof. Jorge Melchiades;9 - Os ovos estão podres – Reflexão sobre a vida;https://www.youtube.com/watch?v=3SIawanHOJc;3573
+Aula do Prof. Jorge Melchiades;11 – Movimento Gerador da Vida - Reflexão sobre a vida;https://www.youtube.com/watch?v=h4rjFS_o_qI;3590
+Aula do Prof. Jorge Melchiades;14 - Sobre  nada e ilusão;https://www.youtube.com/watch?v=IoQlciMh09Y;3594
+Aula do Prof. Jorge Melchiades;12 - Sobre atividades características do EU;https://www.youtube.com/watch?v=9_4AIqEnRfU;3597
+Aula do Prof. Jorge Melchiades;7 - Vivendo a Vida Alienado de Si – Reflexão sobre a vida;https://www.youtube.com/watch?v=zxWYIo098lo;3601
+Aula do Prof. Jorge Melchiades;13 - O Filósofo do Princípio;https://www.youtube.com/watch?v=sIPrv_W76vk;3602
+Aula do Prof. Jorge Melchiades;16 - Ainda o Mágico de Boz;https://www.youtube.com/watch?v=VKoUTwBXyd8;1800
+Aula do Prof. Jorge Melchiades;20 - A Identidade da Ilusão;https://www.youtube.com/watch?v=dhypr37xhc0;3432
+Aula do Prof. Jorge Melchiades;17 - O Cinismo do Mágico de Bozz- Prof. Jorge Melchiades;https://www.youtube.com/watch?v=YD00p_vtC_8;3448
+Aula do Prof. Jorge Melchiades;23 - As aparências enganam;https://www.youtube.com/watch?v=7DEx70957vo;3457
+Aula do Prof. Jorge Melchiades;4 – Correndo por fora do sagrado – Reflexão sobre a Vida;https://www.youtube.com/watch?v=jAKldqLjcpY;3462
+Aula do Prof. Jorge Melchiades;6 - No Fim da Picada;https://www.youtube.com/watch?v=KJppsWoRX24;3475
+Aula do Prof. Jorge Melchiades;22 - Atenção na comunicação;https://www.youtube.com/watch?v=gY9-vgrgxsc;3478
+Aula do Prof. Jorge Melchiades;16 - Ainda o Mágico de Boz;https://www.youtube.com/watch?v=VKoUTwBXyd8;1800`;
 
 // Função para mostrar erros na página
 function mostrarErro(mensagem) {
