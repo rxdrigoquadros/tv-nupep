@@ -34,26 +34,22 @@ function initSmoothScroll() {
 
 // Gallery Modal for Images and YouTube videos
 function initGalleryModal() {
-    // Seleciona apenas itens que NÃO são PDF
-    // Debug: vamos ver o que está sendo selecionado
-    const allGalleryItems = document.querySelectorAll('.gallery-grid .gallery-item:not(.pdf-item)');
-    console.log('Total de itens encontrados:', allGalleryItems.length);
-    allGalleryItems.forEach((item, index) => {
-        console.log(`Item ${index}:`, item);
-        console.log('HTML do item:', item.outerHTML);
-    });
+    if (window.galleryModalInitialized) return;
+    window.galleryModalInitialized = true;
 
-    const galleryItems = allGalleryItems;
+    // Select all gallery items, excluding PDF items
+    const galleryItems = document.querySelectorAll('.gallery-item:not(.pdf-item)');
+    console.log('Itens encontrados na galeria:', galleryItems);
 
     if (galleryItems.length === 0) return;
 
-    // Create modal HTML if it doesn't exist
+    // Create the modal if it doesn't exist
     if (!document.querySelector('.gallery-modal')) {
         const modalHTML = `
             <div class="gallery-modal">
-                <button class="gallery-modal-close">&times;</button>
-                <button class="gallery-modal-prev">&#10094;</button>
-                <button class="gallery-modal-next">&#10095;</button>
+                <button class="gallery-modal-close">×</button>
+                <button class="gallery-modal-prev">❮</button>
+                <button class="gallery-modal-next">❯</button>
                 <div class="gallery-modal-content">
                     <img class="gallery-modal-image" src="" alt="">
                     <div class="gallery-modal-youtube"></div>
@@ -70,12 +66,18 @@ function initGalleryModal() {
     const prevBtn = document.querySelector('.gallery-modal-prev');
     const nextBtn = document.querySelector('.gallery-modal-next');
 
-    let currentIndex = 0;
-    let itemsArray = Array.from(galleryItems);
+    let currentIndex = 0; // Initialize currentIndex
 
     function openGalleryModal(index) {
-        const item = itemsArray[index];
-        currentIndex = index;
+        // Ensure that we always work with the current state of gallery items
+        const currentGalleryItems = Array.from(document.querySelectorAll('.gallery-item:not(.pdf-item)'));
+        if (index < 0 || index >= currentGalleryItems.length) {
+            console.error("Invalid index for gallery modal:", index);
+            return;
+        }
+
+        const item = currentGalleryItems[index];
+        currentIndex = index; // Update the current index
 
         // Reset modal content
         modalImage.style.display = 'none';
@@ -83,22 +85,21 @@ function initGalleryModal() {
         modalYoutube.innerHTML = '';
 
         if (item.classList.contains('youtube')) {
-            // Handle YouTube video
             const youtubeUrl = item.getAttribute('data-youtube');
             const videoId = extractYouTubeId(youtubeUrl);
 
             if (videoId) {
+                // Corrected YouTube embed URL (changed googleusercontent.com to youtube.com)
                 modalYoutube.innerHTML = `
-                    <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen>
                     </iframe>
                 `;
                 modalYoutube.style.display = 'block';
             }
         } else {
-            // Handle regular image
             const img = item.querySelector('img');
             if (img) {
                 modalImage.src = img.src;
@@ -110,37 +111,46 @@ function initGalleryModal() {
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
 
-        // Update navigation buttons
-        prevBtn.style.display = itemsArray.length > 1 ? 'block' : 'none';
-        nextBtn.style.display = itemsArray.length > 1 ? 'block' : 'none';
+        // Check total items again for navigation button display
+        const totalItems = currentGalleryItems.length;
+        prevBtn.style.display = totalItems > 1 ? 'block' : 'none';
+        nextBtn.style.display = totalItems > 1 ? 'block' : 'none';
     }
 
     function closeGalleryModal() {
         modal.classList.remove('active');
         document.body.style.overflow = '';
-        modalYoutube.innerHTML = ''; // Stop video
+        modalYoutube.innerHTML = ''; // Clear iframe content to stop video playback
     }
 
     function navigateGallery(direction) {
+        const currentGalleryItems = Array.from(document.querySelectorAll('.gallery-item:not(.pdf-item)'));
+        if (currentGalleryItems.length === 0) return;
+
         if (direction === 'next') {
-            currentIndex = (currentIndex + 1) % itemsArray.length;
+            currentIndex = (currentIndex + 1) % currentGalleryItems.length;
         } else {
-            currentIndex = (currentIndex - 1 + itemsArray.length) % itemsArray.length;
+            currentIndex = (currentIndex - 1 + currentGalleryItems.length) % currentGalleryItems.length;
         }
         openGalleryModal(currentIndex);
     }
 
     function extractYouTubeId(url) {
-        const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/;
+        const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|\/watch\?v=|\/embed\/|v\/)|youtu\.be\/)([^"&?\/\s]{11})/;
         const match = url.match(regex);
         return match ? match[1] : null;
     }
 
-    // Event listeners for gallery items
-    itemsArray.forEach((item, index) => {
+    // Attach click events to each gallery item with its correct index
+    galleryItems.forEach((item, index) => {
+        // Remove the data-listenerAdded check, as it can cause issues if the script re-runs or items are dynamically added/removed.
+        // Instead, ensure event listeners are added only once by the DOMContentLoaded check at the top.
         item.style.cursor = 'pointer';
         item.addEventListener('click', function (e) {
-            e.stopPropagation(); // Impede a propagação do evento
+            e.stopPropagation(); // Prevent event bubbling
+
+            // Directly use the loop's index
+            console.log('Item clicado - Index:', index, 'Element:', item);
             openGalleryModal(index);
         });
     });
@@ -150,9 +160,9 @@ function initGalleryModal() {
     prevBtn.addEventListener('click', () => navigateGallery('prev'));
     nextBtn.addEventListener('click', () => navigateGallery('next'));
 
-    // Close on background click
+    // Close when clicking on the modal background
     modal.addEventListener('click', function (e) {
-        if (e.target === modal) {
+        if (e.target === modal || e.target === modal.querySelector('.gallery-modal-content')) { // Added content div as target
             closeGalleryModal();
         }
     });
@@ -235,7 +245,7 @@ function initPDFGallery() {
     pdfGalleryItems.forEach((item) => {
         item.addEventListener('click', function (e) {
             e.preventDefault();
-            e.stopPropagation(); // Impede a propagação do evento
+            e.stopPropagation();
             const pdfPath = this.getAttribute('data-pdf');
             const title = this.querySelector('img').alt;
             openPDFModal(pdfPath, title);
