@@ -1,10 +1,104 @@
+// PDF Gallery Modal
+function initPDFGallery() {
+    const pdfGalleryItems = document.querySelectorAll('.gallery-item.pdf-item');
+
+    // Criar o modal para PDF se não existir
+    if (!document.querySelector('.pdf-modal')) {
+        const pdfModalHTML = `
+            <div class="pdf-modal">
+                <div class="pdf-modal-header">
+                    <h3 class="pdf-modal-title"></h3>
+                    <div class="pdf-modal-actions">
+                        <button class="pdf-modal-download">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Baixar PDF
+                        </button>
+                        <button class="pdf-modal-close">&times;</button>
+                    </div>
+                </div>
+                <div class="pdf-modal-content">
+                    <iframe class="pdf-iframe"></iframe>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', pdfModalHTML);
+    }
+
+    const pdfModal = document.querySelector('.pdf-modal');
+    const pdfIframe = document.querySelector('.pdf-iframe');
+    const pdfTitle = document.querySelector('.pdf-modal-title');
+    const pdfCloseBtn = document.querySelector('.pdf-modal-close');
+    const pdfDownloadBtn = document.querySelector('.pdf-modal-download');
+    let currentPdfUrl = '';
+
+    // Adicionar evento de clique em cada item PDF
+    pdfGalleryItems.forEach((item) => {
+        item.addEventListener('click', function (e) {
+            e.preventDefault();
+            const pdfPath = this.getAttribute('data-pdf');
+            const title = this.querySelector('img').alt;
+            openPDFModal(pdfPath, title);
+        });
+    });
+
+    function openPDFModal(pdfPath, title) {
+        currentPdfUrl = pdfPath;
+        pdfIframe.src = pdfPath;
+        pdfTitle.textContent = title;
+        pdfModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        // Configurar botão de download
+        pdfDownloadBtn.onclick = function () {
+            const link = document.createElement('a');
+            link.href = currentPdfUrl;
+            link.download = title + '.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+    }
+
+    function closePDFModal() {
+        pdfModal.classList.remove('active');
+        document.body.style.overflow = '';
+        pdfIframe.src = ''; // Limpar o iframe
+        currentPdfUrl = '';
+    }
+
+    // Event listeners
+    pdfCloseBtn.addEventListener('click', closePDFModal);
+
+    // Fechar ao clicar fora do conteúdo
+    pdfModal.addEventListener('click', function (e) {
+        if (e.target === pdfModal || e.target === pdfModal.querySelector('.pdf-modal-content')) {
+            closePDFModal();
+        }
+    });
+
+    // Fechar com ESC
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && pdfModal.classList.contains('active')) {
+            closePDFModal();
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
+
+    // Inicializar galeria de PDFs
+    initPDFGallery();
 
     // Gallery Modal/Lightbox
     initGalleryModal();
 
     function initGalleryModal() {
-        const galleryItems = document.querySelectorAll('.gallery-item');
+        const galleryItems = document.querySelectorAll('.gallery-item:not(.pdf-item)');
+
         let currentGalleryIndex = 0;
 
         // Criar o modal se não existir
