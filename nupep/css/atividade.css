@@ -1014,6 +1014,115 @@ footer {
     }
 }
 
+/* Estilos específicos para galeria de PDFs */
+.gallery-item.pdf-item {
+    cursor: pointer;
+    position: relative;
+}
+
+.gallery-item.pdf-item::after {
+    content: 'PDF';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #dc2626;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.gallery-item.pdf-item:hover::after {
+    background-color: #b91c1c;
+}
+
+/* Modal para PDF */
+.pdf-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.pdf-modal.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.pdf-modal-header {
+    background-color: #1a1a1a;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.pdf-modal-title {
+    color: white;
+    font-size: 18px;
+    margin: 0;
+}
+
+.pdf-modal-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.pdf-modal-download,
+.pdf-modal-close {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.pdf-modal-download:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.pdf-modal-close {
+    font-size: 24px;
+    padding: 4px 8px;
+}
+
+.pdf-modal-close:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.pdf-modal-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.pdf-iframe {
+    width: 100%;
+    height: 100%;
+    max-width: 1200px;
+    border: none;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
 /* Responsive */
 @media (max-width: 991px) {
     .activity-hero-content h1 {
@@ -1093,6 +1202,18 @@ footer {
     .gallery-modal-close {
         top: -35px;
         font-size: 30px;
+    }
+
+    .pdf-modal-header {
+        padding: 10px 15px;
+    }
+
+    .pdf-modal-title {
+        font-size: 16px;
+    }
+
+    .pdf-modal-content {
+        padding: 10px;
     }
 }
 
