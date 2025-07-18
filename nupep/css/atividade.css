@@ -399,25 +399,32 @@ nav ul li a:hover::after {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 15px;
+    overflow: hidden !important;
+    position: relative !important;
 }
 
 .gallery-item {
-    border-radius: 8px;
+    background-color: #f3f4f6; /* Cor de fundo para preencher espaços vazios */
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
-    height: 200px;
-    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
 }
 
 .gallery-item img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s;
+    object-fit: contain;
+    object-position: center;
+    transition: transform 0.3s ease;
 }
 
 .gallery-item:hover img {
-    transform: scale(1.1);
+    transform: scale(1.02);
 }
 
 .gallery-item::after {
@@ -867,24 +874,45 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.95);
     z-index: 1000;
-    overflow: auto;
-    animation: fadeIn 0.3s ease;
+    align-items: center;
+    justify-content: center;
 }
 
 .gallery-modal.active {
+    display: flex;
+}
+
+.gallery-modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.gallery-modal-content {
-    position: relative;
-    width: 90%;
-    max-width: 1000px;
+.gallery-modal-image {
+    max-width: 100%;
     max-height: 90vh;
-    animation: zoomIn 0.3s ease;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: none;
+}
+
+.gallery-modal-youtube {
+    display: none;
+    width: 90vw;
+    max-width: 1200px;
+    height: 50.625vw;
+    max-height: 80vh;
+}
+
+.gallery-modal-youtube iframe {
+    width: 100%;
+    height: 100%;
 }
 
 .gallery-modal-media {
@@ -905,27 +933,21 @@ footer {
 }
 
 .gallery-modal-close {
-    position: absolute;
-    top: -40px;
-    right: 0;
+    position: fixed;
+    top: 20px;
+    right: 40px;
     color: white;
     font-size: 40px;
-    font-weight: bold;
-    cursor: pointer;
+    font-weight: normal;
     background: none;
     border: none;
-    padding: 0;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s, color 0.3s;
+    cursor: pointer;
+    z-index: 1001;
+    transition: color 0.3s;
 }
 
 .gallery-modal-close:hover {
-    color: var(--accent-color);
-    transform: rotate(90deg);
+    color: #ccc;
 }
 
 .gallery-modal-nav {
@@ -948,6 +970,21 @@ footer {
     transform: translateY(-50%) scale(1.1);
 }
 
+.gallery-modal-prev,
+.gallery-modal-next {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: none;
+    font-size: 30px;
+    padding: 20px 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 1001;
+}
+
 .gallery-modal-prev {
     left: 20px;
 }
@@ -956,41 +993,9 @@ footer {
     right: 20px;
 }
 
-/* Indicador de vídeo do YouTube na galeria */
-.gallery-item.youtube::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80px;
-    height: 60px;
-    background-color: rgba(255, 0, 0, 0.8);
-    border-radius: 12px;
-    z-index: 2;
-    pointer-events: none;
-    transition: all 0.3s;
-}
-
-.gallery-item.youtube::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 0;
-    height: 0;
-    border-left: 25px solid white;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
-    margin-left: 5px;
-    z-index: 3;
-    pointer-events: none;
-}
-
-.gallery-item.youtube:hover::before {
-    transform: translate(-50%, -50%) scale(1.1);
-    background-color: rgba(255, 0, 0, 0.9);
+.gallery-modal-prev:hover,
+.gallery-modal-next:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 @keyframes zoomIn {
@@ -1007,22 +1012,34 @@ footer {
 
 /* Estilos específicos para galeria de PDFs */
 .gallery-item.pdf-item {
-    cursor: pointer;
+    background-color: #1a1a1a;
+    padding: 10px;
     position: relative;
+    aspect-ratio: 3/4;
+    cursor: pointer;
+}
+
+.gallery-item.pdf-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .gallery-item.pdf-item::after {
     content: 'PDF';
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 15px;
+    right: 15px;
     background-color: #dc2626;
     color: white;
-    padding: 5px 10px;
+    padding: 5px 12px;
     border-radius: 4px;
     font-size: 12px;
     font-weight: bold;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    z-index: 1;
 }
 
 .gallery-item.pdf-item:hover::after {
