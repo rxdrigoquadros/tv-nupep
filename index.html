@@ -27,37 +27,43 @@
     </header>
 
     <!-- Player do YouTube -->
-    <div class="player-section" id="live-section">
-        <div id="player-container">
-            <div id="live-player"></div>
-            <div class="player-status" id="player-status">AO VIVO</div>
-            <div class="player-controls">
-                <button id="toggle-mute" class="control-button">
-                    <span class="mute-icon">🔊</span>
-                </button>
-                <div class="volume-slider-container">
-                    <input type="range" id="volume-slider" min="0" max="100" value="100" class="volume-slider">
+    <div class="main-content">
+        <div class="player-section" id="live-section">
+            <div id="player-container">
+                <div id="live-player"></div>
+                <div class="player-status" id="player-status">AO VIVO</div>
+                <div class="player-controls">
+                    <button id="toggle-mute" class="control-button">
+                        <span class="mute-icon">🔊</span>
+                    </button>
+                    <div class="volume-slider-container">
+                        <input type="range" id="volume-slider" min="0" max="100" value="100" class="volume-slider">
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="now-playing">
-            <h3 id="current-video-title">Carregando...</h3>
-        </div>
-
-        <div class="subscribe-section">
-            <label class="subscribe-label">Inscreva-se no nosso canal do YouTube: </label>
-            <div class="subscribe-channel-block">
-                <img class="subscribe-logo" src="./img/logo.jpg">
-                <div class="subscribe-channel-info">
-                    <label class="subscribe-channel-name">NUPEP</label>
-                    <label class="subscribers-count">2,64&nbsp;mil inscritos</label>
-                </div>
-                <a target="_blank" class="subscribe-button" href="http://www.youtube.com/channel/UC4lyNJeXfZirWKlvMtKLRzg?sub_confirmation=1&feature=subscribe-embed-click">
-                <span class="subscribe-button-content">Inscrever-se</span>
-                </a>
+            <div class="now-playing">
+                <h3 id="current-video-title">Carregando...</h3>
             </div>
-        </div>
 
+            <div class="subscribe-section">
+                <label class="subscribe-label">Inscreva-se no nosso canal do YouTube: </label>
+                <div class="subscribe-channel-block">
+                    <img class="subscribe-logo" src="./img/logo.jpg">
+                    <div class="subscribe-channel-info">
+                        <label class="subscribe-channel-name">NUPEP</label>
+                        <label class="subscribers-count">2,64 mil inscritos</label>
+                        <!-- Elemento de visualizações aqui dentro -->
+                        <label class="channel-views" id="channel-views"
+                            style="display: block; color: gray; font-size: 0.9rem;"></label>
+                    </div>
+                    <a target="_blank" class="subscribe-button"
+                        href="http://www.youtube.com/channel/UC4lyNJeXfZirWKlvMtKLRzg?sub_confirmation=1&feature=subscribe-embed-click">
+                        <span class="subscribe-button-content">Inscrever-se</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <!-- Adicione o botão aqui - esta é a parte que faltava -->

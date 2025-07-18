@@ -16,23 +16,45 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+html,
+body {
+    height: 100%;
+    overflow-x: hidden;
+}
+
 body {
     background-color: var(--light-color);
     color: var(--text-color);
     line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 0;
+    padding: 10px 0;
+    /* Reduzido de 15px */
     background-color: var(--light-color);
     color: var(--text-color);
     position: sticky;
     top: 0;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+/* Container principal com flexbox */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    max-height: calc(100vh - 60px);
+    /* Ajustado para altura do header */
+    overflow-y: auto;
 }
 
 .logo {
@@ -113,19 +135,24 @@ nav ul li a.active::after {
 .player-section {
     background-color: var(--bg-light);
     position: relative;
-    width: 80%;
+    width: 90%;
+    /* Aumentado de 80% para aproveitar melhor o espaço */
+    max-width: 1200px;
+    /* Limite máximo */
     margin: 0 auto;
     height: auto;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    flex-shrink: 0;
 }
 
 .player-container {
     max-width: 100%;
     margin: 0 auto;
     position: relative;
-    padding-top: 56.25%;
+    padding-top: 50%;
+    /* Reduzido de 56.25% para um aspecto mais wide */
     background-color: #000;
     overflow: hidden;
 }
@@ -150,7 +177,8 @@ nav ul li a.active::after {
 .now-playing {
     #background-color: rgba(15, 52, 96, 0.9);
     #color: var(--light-color);
-    padding: 0.5rem 1rem;
+    padding: 0.3rem 1rem;
+    /* Reduzido de 0.5rem */
     position: relative;
     bottom: 0;
     left: 0;
@@ -159,7 +187,7 @@ nav ul li a.active::after {
 }
 
 .now-playing h3 {
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin: 0;
 }
 
@@ -221,11 +249,11 @@ nav ul li a.active::after {
 
 .subscribe-section {
     margin: 0 1rem;
-    padding: 0 0 1rem 0;
+    padding: 0.5rem 0;
 }
 
 .subscribe-label {
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .subscribe-channel-block {
@@ -234,10 +262,10 @@ nav ul li a.active::after {
 }
 
 .subscribe-logo {
-    max-width: 3rem;
+    max-width: 2.5rem;
     height: auto;
     border-radius: 50%;
-    margin-right: 0.7rem;
+    margin-right: 0.5rem;
 }
 
 .subscribe-channel-info {
@@ -248,7 +276,7 @@ nav ul li a.active::after {
 .subscribe-channel-name {
     font-family: "Roboto", "Arial", sans-serif;
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 .subscribers-count {
@@ -256,9 +284,11 @@ nav ul li a.active::after {
     color: gray;
     padding: 0;
     font-family: "Roboto", "Arial", sans-serif;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    /* Reduzido de 1rem */
     font-weight: 400;
-    line-height: 1.8rem;
+    line-height: 1.4rem;
+    /* Reduzido de 1.8rem */
 }
 
 .subscribe-button {
@@ -287,21 +317,25 @@ nav ul li a.active::after {
 
 .more-content {
     text-align: center;
-    padding: 0.8rem 1.5rem;
+    padding: 0.6rem 1.2rem;
+    /* Reduzido de 0.8rem 1.5rem */
     background-color: #2c5282;
     color: white !important;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    /* Reduzido de 1.1rem */
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
     z-index: 100;
     border-radius: 4px;
-    margin: 15px auto;
+    margin: 10px auto;
+    /* Reduzido de 15px */
     max-width: 90%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     display: block;
     text-decoration: none;
     font-weight: bold;
+    flex-shrink: 0;
 }
 
 .more-content::before {
@@ -666,6 +700,23 @@ nav ul li a.active::after {
     }
 }
 
+@media (min-width: 1400px) {
+    .player-container {
+        padding-top: 52%;
+        /* Proporção ligeiramente mais wide em telas grandes */
+    }
+}
+
+@media (max-width: 1200px) {
+    .player-section {
+        width: 95%;
+    }
+
+    .player-container {
+        padding-top: 54%;
+    }
+}
+
 /* Maximize player size while maintaining aspect ratio */
 @media (min-width: 1200px) {
     .player-container {
@@ -691,14 +742,18 @@ nav ul li a.active::after {
 /* Media queries para responsividade */
 @media (max-width: 991px) {
     .player-section {
-        width: 90%;
+        width: 98%;
+    }
+
+    .player-container {
+        padding-top: 56.25%;
+        /* Volta ao 16:9 padrão em telas menores */
     }
 }
 
 @media (max-width: 768px) {
     header {
-        padding: 15px;
-        flex-direction: column;
+        padding: 10px;
     }
 
     .logo {
@@ -769,6 +824,10 @@ nav ul li a.active::after {
         display: block;
     }
 
+    .main-content {
+        padding: 5px;
+    }
+
     .player-section {
         width: 100%;
         border-radius: 0;
@@ -793,9 +852,16 @@ nav ul li a.active::after {
         margin-bottom: 0.5rem;
     }
 
+    .more-content {
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
+        margin: 8px auto;
+    }
+
     .player-controls {
         position: absolute;
-        bottom: 250px;
+        bottom: 220px;
+        ;
         right: 10px;
         z-index: 30;
         display: flex;
@@ -803,6 +869,41 @@ nav ul li a.active::after {
         background-color: rgba(15, 52, 96, 0.8);
         padding: 5px 10px;
         border-radius: 4px;
+    }
+}
+
+@media (max-height: 600px) {
+    header {
+        padding: 5px 0;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .player-container {
+        padding-top: 45%;
+        /* Ainda mais wide para aproveitar melhor a tela */
+    }
+
+    .now-playing h3 {
+        font-size: 0.9rem;
+    }
+
+    .subscribe-section {
+        padding: 0.3rem 0;
+    }
+
+    .more-content {
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+        margin: 5px auto;
+    }
+}
+
+@media (max-height: 800px) {
+    .player-container {
+        padding-top: 48%;
     }
 }
 
