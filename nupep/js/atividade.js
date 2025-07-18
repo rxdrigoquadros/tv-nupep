@@ -39,7 +39,6 @@ function initGalleryModal() {
 
     // Select all gallery items, excluding PDF items
     const galleryItems = document.querySelectorAll('.gallery-item:not(.pdf-item)');
-    console.log('Itens encontrados na galeria:', galleryItems);
 
     if (galleryItems.length === 0) return;
 
@@ -120,7 +119,7 @@ function initGalleryModal() {
     function closeGalleryModal() {
         modal.classList.remove('active');
         document.body.style.overflow = '';
-        modalYoutube.innerHTML = ''; // Clear iframe content to stop video playback
+        modalYoutube.innerHTML = '';
     }
 
     function navigateGallery(direction) {
@@ -141,16 +140,10 @@ function initGalleryModal() {
         return match ? match[1] : null;
     }
 
-    // Attach click events to each gallery item with its correct index
     galleryItems.forEach((item, index) => {
-        // Remove the data-listenerAdded check, as it can cause issues if the script re-runs or items are dynamically added/removed.
-        // Instead, ensure event listeners are added only once by the DOMContentLoaded check at the top.
         item.style.cursor = 'pointer';
         item.addEventListener('click', function (e) {
-            e.stopPropagation(); // Prevent event bubbling
-
-            // Directly use the loop's index
-            console.log('Item clicado - Index:', index, 'Element:', item);
+            e.stopPropagation();
             openGalleryModal(index);
         });
     });
