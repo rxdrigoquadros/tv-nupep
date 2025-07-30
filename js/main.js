@@ -9,34 +9,6 @@ var playerVolume = 70; // Volume padrão (0-100)
 var playerMuted = true; // Iniciar como mudo para corresponder ao estado inicial do player
 var apiReadyAttempts = 0; // Contador para tentativas de inicialização
 
-// Dados dos vídeos embutidos no código
-var csvRaw = `Aula do Prof. Jorge Melchiades;16 - Ainda o Mágico de Boz;https://www.youtube.com/watch?v=VKoUTwBXyd8;1800
-Aula do Prof. Jorge Melchiades;20 - A Identidade da Ilusão;https://www.youtube.com/watch?v=dhypr37xhc0;3432
-Aula do Prof. Jorge Melchiades;17 - O Cinismo do Mágico de Bozz- Prof. Jorge Melchiades;https://www.youtube.com/watch?v=YD00p_vtC_8;3448
-Aula do Prof. Jorge Melchiades;23 - As aparências enganam;https://www.youtube.com/watch?v=7DEx70957vo;3457
-Aula do Prof. Jorge Melchiades;4 – Correndo por fora do sagrado – Reflexão sobre a Vida;https://www.youtube.com/watch?v=jAKldqLjcpY;3462
-Aula do Prof. Jorge Melchiades;6 - No Fim da Picada;https://www.youtube.com/watch?v=KJppsWoRX24;3475283
-Aula do Prof. Jorge Melchiades;22 - Atenção na comunicação;https://www.youtube.com/watch?v=gY9-vgrgxsc;34784,716666667
-Aula do Prof. Jorge Melchiades;21 - Experimente a Plenitude da Existência;https://www.youtube.com/watch?v=6i5E1zLqPEU;3491
-Aula do Prof. Jorge Melchiades;5 - A morte da bezerra - Reflexão sobre a vida;https://www.youtube.com/watch?v=zJevF3rzzls;3526
-Aula do Prof. Jorge Melchiades;15- O Mágico de Boz;https://www.youtube.com/watch?v=FSL5XgwfpO4;3533
-Aula do Prof. Jorge Melchiades;10 – A Forma do Atrevimento Ideológico – Reflexão sobre a vida;https://www.youtube.com/watch?v=ME4Q4R204MM;3547
-Aula do Prof. Jorge Melchiades;8 – Vida é raciocínio - Reflexão sobre a vida;https://www.youtube.com/watch?v=W6f1166CbWQ;3559
-Aula do Prof. Jorge Melchiades;9 - Os ovos estão podres – Reflexão sobre a vida;https://www.youtube.com/watch?v=3SIawanHOJc;3573
-Aula do Prof. Jorge Melchiades;11 – Movimento Gerador da Vida - Reflexão sobre a vida;https://www.youtube.com/watch?v=h4rjFS_o_qI;3590
-Aula do Prof. Jorge Melchiades;14 - Sobre  nada e ilusão;https://www.youtube.com/watch?v=IoQlciMh09Y;3594
-Aula do Prof. Jorge Melchiades;12 - Sobre atividades características do EU;https://www.youtube.com/watch?v=9_4AIqEnRfU;3597
-Aula do Prof. Jorge Melchiades;7 - Vivendo a Vida Alienado de Si – Reflexão sobre a vida;https://www.youtube.com/watch?v=zxWYIo098lo;3601
-Aula do Prof. Jorge Melchiades;13 - O Filósofo do Princípio;https://www.youtube.com/watch?v=sIPrv_W76vk;3602
-Aula do Prof. Jorge Melchiades;16 - Ainda o Mágico de Boz;https://www.youtube.com/watch?v=VKoUTwBXyd8;1800
-Aula do Prof. Jorge Melchiades;20 - A Identidade da Ilusão;https://www.youtube.com/watch?v=dhypr37xhc0;3432
-Aula do Prof. Jorge Melchiades;17 - O Cinismo do Mágico de Bozz- Prof. Jorge Melchiades;https://www.youtube.com/watch?v=YD00p_vtC_8;3448
-Aula do Prof. Jorge Melchiades;23 - As aparências enganam;https://www.youtube.com/watch?v=7DEx70957vo;3457
-Aula do Prof. Jorge Melchiades;4 – Correndo por fora do sagrado – Reflexão sobre a Vida;https://www.youtube.com/watch?v=jAKldqLjcpY;3462
-Aula do Prof. Jorge Melchiades;6 - No Fim da Picada;https://www.youtube.com/watch?v=KJppsWoRX24;3475
-Aula do Prof. Jorge Melchiades;22 - Atenção na comunicação;https://www.youtube.com/watch?v=gY9-vgrgxsc;3478
-Aula do Prof. Jorge Melchiades;16 - Ainda o Mágico de Boz;https://www.youtube.com/watch?v=VKoUTwBXyd8;1800`;
-
 // Função para mostrar erros na página
 function mostrarErro(mensagem) {
     const errorElement = document.createElement('div');
@@ -754,6 +726,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Tabbed navigation
+    /*
     document.getElementById('live-tab').addEventListener('click', function (e) {
         e.preventDefault();
         setActiveTab(document.getElementById('live-tab'));
@@ -827,6 +800,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Show About content (to be implemented)
         alert('A página "Sobre" será implementada em breve.');
     });
+    */
 
     // Volume/Mute Controls
     document.getElementById('toggle-mute').addEventListener('click', toggleMute);
@@ -875,27 +849,108 @@ function onPlayerStateChange(event) {
 function onYouTubeIframeAPIReady() {
     console.log("YouTube API carregada com sucesso!");
     youtubeAPIReady = true;
+    livePlayer = new YT.Player('live-player', {
+        height: '100%',
+        width: '100%',
+        videoId: '',
+        playerVars: {
+            autoplay: 1,
+            controls: 0,
+            modestbranding: 1,
+            rel: 0,
+            showinfo: 0,
+            mode: 'no-cors',
+            mute: playerMuted ? 1 : 0
+        },
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange,
+            'onError': onPlayerError
+        }
+    });
+}
 
-    // Processa o CSV embutido
-    videos = parseCSV(csvRaw);
+function timeToSeconds(time) {
+    const [hours, minutes, seconds] = time.split(":").map(Number);
+    return hours * 3600 + minutes * 60 + (seconds || 0);
+}
 
-    if (videos.length > 0) {
-        console.log(`${videos.length} vídeos processados do CSV`);
-        // Cria o cronograma de programação
-        schedule = createSchedule(videos);
+function getSortedProgramsOfTheDay(currentDay) {
+    return programas
+        //.filter((programa) => programa.diaDaSemana == currentDay)  // descomentar para ter grade específica para cada dia da semana
+        .sort((a, b) => a.inicio < b.inicio)
+}
 
-        // Preenche as categorias
-        populateCategories();
+function getProgramAtCurrentTime() {
+    let program;
 
-        // Inicializa o player com um pequeno atraso para garantir que o DOM esteja pronto
-        setTimeout(() => {
-            initializePlayers();
-        }, 500);
-    } else {
-        console.error("Nenhum vídeo foi processado do CSV");
-        document.getElementById('loading').style.display = 'none';
-        mostrarErro("Não foi possível carregar os vídeos. Por favor, atualize a página.");
+    const now = new Date();
+    let currentDay = now.getDay();
+    // if (currentDay == 0) currentDay = 7;  // domingo é 0 em JS e 7 em PHP  // descomentar caso utilize backend em PHP
+    const programsOfTheDay = getSortedProgramsOfTheDay(currentDay);
+
+    const currentTimeInSeconds = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+    const currentProgram = programsOfTheDay.filter((program) =>
+        // program.diaDaSemana == currentDay &&  // descomentar para ter grade específica para cada dia da semana
+        currentTimeInSeconds >= timeToSeconds(program.inicio) &&
+        currentTimeInSeconds <= timeToSeconds(program.fim))[0];
+
+    if (currentProgram !== undefined) {
+        program = currentProgram;
+    } else {  // primeiro ou último programa do dia que atravessa meia-noite
+        const firstProgram = programsOfTheDay[0];
+        const lastProgram = programsOfTheDay[programsOfTheDay.length - 1];
+
+        if (currentTimeInSeconds <= timeToSeconds(firstProgram.fim)) {
+            program = firstProgram;
+        } else if (currentTimeInSeconds >= timeToSeconds(lastProgram.inicio)) {
+            program = lastProgram;
+        }
     }
+
+    const secondsPerDay = 86400;
+    const elapsedTime = (currentTimeInSeconds - timeToSeconds(program.inicio) + secondsPerDay) % secondsPerDay;
+    return { program, elapsedTime };
+}
+
+function startProgram(program, startTime) {
+    if (!isPlayerReady) return;
+    livePlayer.loadVideoById(program.youtubeId, startTime);
+    livePlayer.playVideo();
+}
+
+function controlProgramming() {
+    const currentProgram = getProgramAtCurrentTime();
+    if (currentProgram) {
+        const { program, elapsedTime } = currentProgram;
+        startProgram(program, elapsedTime);
+        document.getElementById('current-video-title').textContent = program.nome;
+    }
+}
+
+controlProgramming();
+
+var intervalId = setInterval(() => {
+    var iframe = document.querySelector('iframe#live-player');
+    if (!iframe) {
+        console.log('Iframe não encontrado. Recriando player...');
+        onYouTubeIframeAPIReady();
+    } else {
+        console.log('Iframe carregado corretamente.');
+        clearInterval(intervalId); // Para o monitoramento após o iframe ser carregado
+
+        setTimeout(function () {
+            if (livePlayer && typeof livePlayer.mute === "function" && typeof livePlayer.playVideo === "function") {
+                livePlayer.mute();        // Muta o vídeo
+                livePlayer.playVideo();   // Inicia o vídeo
+            }
+        }, 2000); // 2 segundos
+    }
+}, 1000); // Verifica a cada 1 segundo
+
+function unMuteVideo() {
+    livePlayer.unMute();
+    $('#volume').fadeOut();
 }
 
 // === INÍCIO DO CÓDIGO DO CONTADOR DINÂMICO DO YOUTUBE ===

@@ -1,46 +1,95 @@
 const programasInicial = [
     {
-        "nome": "Aula do prof Jorge - Aula inédita 16/03/2024 - A Revolução do Filho da Luta 2 - Prof. Jorge Melchiades",
-        "youtubeId": "DQWHvllQfow",
-        "duracao": 89,
-    }, {
-        "nome": "Grupo Comenta - Nossa Posição na Existência - Grupo Comenta Reflexões do Professor Jorge Melchiades",
-        "youtubeId": "WOwGehTnsIY",
-        "duracao": 3016,
-    }, {
-        "nome": "Aula do prof Jorge - A REVOLUÇÃO DO FILHO DA LUTA 2 - Psicologia Racional - Prof. Jorge Melchiades",
-        "youtubeId": "M6QvjLNDLD0",
-        "duracao": 1595,
-    }, {
-        "nome": "Grupo Comenta - Da Mitologia à Esquerda - Grupo Comenta o programa da Série Nossa Posição do Prof. Jorge Melchiades",
-        "youtubeId": "XaOjIKbuaIg",
-        "duracao": 2299,
-    }, {
-        "nome": "Aula do prof Jorge - O Desejo do Filho da Luta - Série: Os Filhos da Luta com o Prof. Jorge Melchiades",
-        "youtubeId": "gVu_bnU1ZOM",
-        "duracao": 1776,
-    }, {
-        "nome": "Aula do prof Jorge - A REVOLUÇÃO DO FILHO DA LUTA - Psicologia Racional - Prof. Jorge Melchiades",
-        "youtubeId": "cAL6tDgATDs",
-        "duracao": 2013,
-    }, {
-        "nome": "Grupo Comenta - O Revolucionário Conservador - Grupo Comenta o programa do Prof. Jorge Melchiades",
-        "youtubeId": "mXpsrUXPwTM",
-        "duracao": 2345,
-    }, {
-        "nome": "Aula do prof Jorge - A Revolução do Filho da LUTA - Aula inédita! #dialética #metafisica #etica #jorgemelchiades",
-        "youtubeId": "Wi1qv-KB6PI",
-        "duracao": 17,
-    }, {
-        "nome": "Grupo Comenta - Freud e a Nossa Posição - Grupo Comenta a aula do Professor Jorge Melchiades",
-        "youtubeId": "YEWMVHTS6K0",
-        "duracao": 2285,
-    }, {
-        "nome": "Aula do prof Jorge - Quem sou? - Aula de Psicologia Racional - Prof. Jorge Melchiades",
-        "youtubeId": "J8ZdLy-GIa4",
-        "duracao": 1982,
-    }
-]
+        "nome": "16 - Ainda o Mágico de Boz",
+        "youtubeId": "VKoUTwBXyd8",
+        "duracao": 1799,
+    },
+    {
+        "nome": "20 - A Identidade da Ilusão",
+        "youtubeId": "dhypr37xhc0",
+        "duracao": 3432,
+    },
+    {
+        "nome": "17 - O Cinismo do Mágico de Bozz- Prof. Jorge Melchiades",
+        "youtubeId": "YD00p_vtC_8",
+        "duracao": 3447,
+    },
+    {
+        "nome": "23 - As aparências enganam",
+        "youtubeId": "7DEx70957vo",
+        "duracao": 3456,
+    },
+    {
+        "nome": "4 – Correndo por fora do sagrado – Reflexão sobre a Vida",
+        "youtubeId": "jAKldqLjcpY",
+        "duracao": 3462,
+    },
+    {
+        "nome": "6 - No Fim da Picada",
+        "youtubeId": "KJppsWoRX24",
+        "duracao": 3475,
+    },
+    {
+        "nome": "22 - Atenção na comunicação",
+        "youtubeId": "gY9-vgrgxsc",
+        "duracao": 3478,
+    },
+    {
+        "nome": "21 - Experimente a Plenitude da Existência",
+        "youtubeId": "6i5E1zLqPEU",
+        "duracao": 3490,
+    },
+    {
+        "nome": "5 - A morte da bezerra - Reflexão sobre a vida",
+        "youtubeId": "zJevF3rzzls",
+        "duracao": 3525,
+    },
+    {
+        "nome": "15- O Mágico de Boz",
+        "youtubeId": "FSL5XgwfpO4",
+        "duracao": 3532,
+    },
+    {
+        "nome": "10 – A Forma do Atrevimento Ideológico – Reflexão sobre a vida",
+        "youtubeId": "ME4Q4R204MM",
+        "duracao": 3546,
+    },
+    {
+        "nome": "8 – Vida é raciocínio - Reflexão sobre a vida",
+        "youtubeId": "W6f1166CbWQ",
+        "duracao": 3559,
+    },
+    {
+        "nome": "9 - Os ovos estão podres – Reflexão sobre a vida",
+        "youtubeId": "3SIawanHOJc",
+        "duracao": 3573,
+    },
+    {
+        "nome": "11 – Movimento Gerador da Vida - Reflexão sobre a vida",
+        "youtubeId": "h4rjFS_o_qI",
+        "duracao": 3590,
+    },
+    {
+        "nome": "14 - Sobre  nada e ilusão",
+        "youtubeId": "IoQlciMh09Y",
+        "duracao": 3594,
+    },
+    {
+        "nome": "12 - Sobre atividades características do EU",
+        "youtubeId": "9_4AIqEnRfU",
+        "duracao": 3597,
+    },
+    {
+        "nome": "7 - Vivendo a Vida Alienado de Si – Reflexão sobre a vida",
+        "youtubeId": "zxWYIo098lo",
+        "duracao": 3601,
+    },
+    {
+        "nome": "13 - O Filósofo do Princípio",
+        "youtubeId": "sIPrv_W76vk",
+        "duracao": 3602,
+    },
+];
 
 let seconds = 0;
 for (const programa of programasInicial) {
