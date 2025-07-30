@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TV NUPEP</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
     <div class="loading" id="loading">
         <div class="spinner"></div>
     </div>
-
+    
     <header>
         <div class="logo">TV NUPEP</div>
         <nav id="main-nav">
@@ -29,43 +27,37 @@
     </header>
 
     <!-- Player do YouTube -->
-    <div class="main-content">
-        <div class="player-section" id="live-section">
-            <div id="player-container">
-                <div id="live-player"></div>
-                <div class="player-status" id="player-status">AO VIVO</div>
-                <div class="player-controls">
-                    <button id="toggle-mute" class="control-button">
-                        <span class="mute-icon">🔊</span>
-                    </button>
-                    <div class="volume-slider-container">
-                        <input type="range" id="volume-slider" min="0" max="100" value="100" class="volume-slider">
-                    </div>
+    <div class="player-section" id="live-section">
+        <div id="player-container">
+            <div id="live-player"></div>
+            <div class="player-status" id="player-status">AO VIVO</div>
+            <div class="player-controls">
+                <button id="toggle-mute" class="control-button">
+                    <span class="mute-icon">🔊</span>
+                </button>
+                <div class="volume-slider-container">
+                    <input type="range" id="volume-slider" min="0" max="100" value="100" class="volume-slider">
                 </div>
             </div>
-            <div class="now-playing">
-                <h3 id="current-video-title">Carregando...</h3>
-            </div>
-
-            <div class="subscribe-section">
-                <label class="subscribe-label">Inscreva-se no nosso canal do YouTube: </label>
-                <div class="subscribe-channel-block">
-                    <img class="subscribe-logo" src="./img/logo.jpg">
-                    <div class="subscribe-channel-info">
-                        <label class="subscribe-channel-name">NUPEP</label>
-                        <label class="subscribers-count">2,64 mil inscritos</label>
-                        <!-- Elemento de visualizações aqui dentro -->
-                        <label class="channel-views" id="channel-views"
-                            style="display: block; color: gray; font-size: 0.9rem;"></label>
-                    </div>
-                    <a target="_blank" class="subscribe-button"
-                        href="http://www.youtube.com/channel/UC4lyNJeXfZirWKlvMtKLRzg?sub_confirmation=1&feature=subscribe-embed-click">
-                        <span class="subscribe-button-content">Inscrever-se</span>
-                    </a>
-                </div>
-            </div>
-
         </div>
+        <div class="now-playing">
+            <h3 id="current-video-title">Carregando...</h3>
+        </div>
+
+        <div class="subscribe-section">
+            <label class="subscribe-label">Inscreva-se no nosso canal do YouTube: </label>
+            <div class="subscribe-channel-block">
+                <img class="subscribe-logo" src="./img/logo.jpg">
+                <div class="subscribe-channel-info">
+                    <label class="subscribe-channel-name">NUPEP</label>
+                    <label class="subscribers-count">2,64&nbsp;mil inscritos</label>
+                </div>
+                <a target="_blank" class="subscribe-button" href="http://www.youtube.com/channel/UC4lyNJeXfZirWKlvMtKLRzg?sub_confirmation=1&feature=subscribe-embed-click">
+                <span class="subscribe-button-content">Inscrever-se</span>
+                </a>
+            </div>
+        </div>
+
     </div>
 
     <!-- Adicione o botão aqui - esta é a parte que faltava -->
@@ -76,11 +68,11 @@
     <div class="categories-container" id="categories-container">
         <div class="categories" id="categories-list"></div>
     </div>
-
+    
     <button class="back-button" id="back-button">Voltar para categorias</button>
-
+    
     <div class="video-grid" id="video-grid"></div>
-
+    
     <div class="schedule-modal" id="schedule-modal">
         <div class="schedule-modal-content">
             <span class="close-schedule-modal" id="close-schedule-modal">&times;</span>
@@ -90,7 +82,7 @@
             </div>
         </div>
     </div>
-
+    
     <div class="modal" id="video-modal">
         <div class="modal-content">
             <span class="close-modal" id="close-modal">&times;</span>
@@ -110,5 +102,4 @@
     <script src="js/main.js"></script>
 
 </body>
-
 </html>
