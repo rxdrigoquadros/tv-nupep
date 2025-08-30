@@ -429,6 +429,9 @@ nav ul li a:hover::after {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s, box-shadow 0.3s;
     border: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex; /**/
+    flex-direction: column;
+    height: 100%; /* Importante para ocupar toda altura disponível */
 }
 
 .activity-card:hover {
@@ -453,7 +456,10 @@ nav ul li a:hover::after {
 }
 
 .activity-content {
-    padding: 20px;
+    padding: 20px; /* suas outras propriedades existentes */
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Faz o content crescer para ocupar o espaço disponível */
 }
 
 .activity-content h3 {
@@ -463,7 +469,9 @@ nav ul li a:hover::after {
 
 .activity-content p {
     margin-bottom: 15px;
-    color: #555;
+    color: #555; /* suas propriedades existentes do parágrafo */
+    flex: 1; /* Faz o parágrafo crescer e empurrar o read-more para baixo */
+    margin-bottom: 15px; /* Espaço entre o texto e o botão */
 }
 
 .read-more {
@@ -472,6 +480,7 @@ nav ul li a:hover::after {
     font-weight: 600;
     display: inline-flex;
     align-items: center;
+    margin-top: auto; /* Empurra para o fundo */
 }
 
 .read-more span {
